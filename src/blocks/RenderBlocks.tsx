@@ -3,17 +3,25 @@ import React, { Fragment } from 'react'
 import type { Page } from '@/payload-types'
 
 import { ArchiveBlock } from '@/blocks/ArchiveBlock/Component'
+import { AwardsListBlockComponent } from '@/blocks/AwardsList/Component'
 import { CallToActionBlock } from '@/blocks/CallToAction/Component'
 import { ContentBlock } from '@/blocks/Content/Component'
 import { FormBlock } from '@/blocks/Form/Component'
+import { LogoBannerBlockComponent } from '@/blocks/LogoBanner/Component'
 import { MediaBlock } from '@/blocks/MediaBlock/Component'
+import { StatsBlockComponent } from '@/blocks/Stats/Component'
+import { TestimonialBlockComponent } from '@/blocks/Testimonial/Component'
 
 const blockComponents = {
   archive: ArchiveBlock,
+  awardsList: AwardsListBlockComponent,
   content: ContentBlock,
   cta: CallToActionBlock,
   formBlock: FormBlock,
+  logoBanner: LogoBannerBlockComponent,
   mediaBlock: MediaBlock,
+  stats: StatsBlockComponent,
+  testimonial: TestimonialBlockComponent,
 }
 
 export const RenderBlocks: React.FC<{
@@ -33,10 +41,10 @@ export const RenderBlocks: React.FC<{
             const Block = blockComponents[blockType]
 
             if (Block) {
+              const BlockWithProps = Block as React.FC<Record<string, unknown>>
               return (
                 <div className="my-16" key={index}>
-                  {/* @ts-expect-error there may be some mismatch between the expected types here */}
-                  <Block {...block} disableInnerContainer />
+                  <BlockWithProps {...block} disableInnerContainer />
                 </div>
               )
             }

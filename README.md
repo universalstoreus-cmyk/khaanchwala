@@ -1,14 +1,30 @@
-# Payload Website Template
+# Agency Website Template
 
-This is the official [Payload Website Template](https://github.com/payloadcms/payload/blob/main/templates/website). Use it to power websites, blogs, or portfolios from small to enterprise. This repo includes a fully-working backend, enterprise-grade admin panel, and a beautifully designed, production-ready website.
+> Built on top of the official [Payload Website Template](https://github.com/payloadcms/payload/tree/main/templates/website).
 
-This template is right for you if you are working on:
+This template extends the upstream Payload starter with everything a digital agency (or similar service business) needs out of the box. The original README has been updated to reflect the additions — you still get all of the stock Payload features, plus the agency-specific collections, blocks, globals, and seed data described below.
 
-- A personal or enterprise-grade website, blog, or portfolio
-- A content publishing platform with a fully featured publication workflow
-- Exploring the capabilities of Payload
+### Why use this template
 
-Core features:
+- **Next.js 16 + Turbopack** — Uses the latest App Router features including `use cache` directives, on-demand revalidation, and React Server Components for fast, production-grade rendering.
+- **Optimized for Vercel** — Pre-configured for Vercel Postgres (`@payloadcms/db-vercel-postgres`), Vercel Blob Storage, and cron-based scheduled publishing. Deploys with zero additional infrastructure.
+- **Modern styling stack** — TailwindCSS v4, shadcn/ui components, and a centralized font config. All visual styling is intentionally minimal so you can adapt it to your own brand.
+- **MCP integration** — Ships with Model Context Protocol (MCP) servers pre-configured (shadcn, Neon, Figma, Next.js Devtools), so AI-assisted workflows work out of the box.
+- **Agency-ready collections** — Adds Customers, Technologies, Team Members, Testimonials, Services, Case Studies, Awards, Legal Pages, Demos, and Portfolio on top of the stock Pages, Posts, Media, and Categories.
+- **New layout blocks** — Testimonial, Logo Banner (customers or technologies), Stats, and Awards List blocks are ready to drop into any page via the Layout Builder.
+- **Expanded globals** — Header with configurable CTA buttons, Footer with link columns and social links, and a Site Settings global for contact info and branding.
+- **Full seed script** — One click from the admin panel seeds every collection and global with realistic demo data so you can see all blocks and collections working on the home page immediately.
+- **Internationalization** — English and Bulgarian locales with a URL-prefix strategy and a locale switcher in the header.
+
+### Who this is for
+
+- Agencies, studios, or freelancers who need a content-managed website with service pages, case studies, and a portfolio.
+- Teams exploring Payload CMS who want a richer starting point than the stock template.
+- Anyone who wants a Vercel-optimized, Next.js 16 project with a full CMS backend ready to customize.
+
+### Inherited features
+
+Everything from the original Payload Website Template is preserved:
 
 - [Pre-configured Payload Config](#how-it-works)
 - [Authentication](#users-authentication)
@@ -76,6 +92,10 @@ See the [Collections](https://payloadcms.com/docs/configuration/collections) doc
 
   A taxonomy used to group posts together. Categories can be nested inside of one another, for example "News > Technology". See the official [Payload Nested Docs Plugin](https://payloadcms.com/docs/plugins/nested-docs) for more details.
 
+- #### Awards
+
+  A simple collection for awards and recognition (year, award name, category, project, optional image and link). Used by the **Awards List** layout block to show a year-grouped timeline on pages. Public read; authenticated create/update/delete. Revalidates the `awards` tag on change/delete.
+
 ### Globals
 
 See the [Globals](https://payloadcms.com/docs/configuration/globals) docs for details on how to extend this functionality.
@@ -107,6 +127,10 @@ Create unique page layouts for any type of content using a powerful layout build
 - Media
 - Call To Action
 - Archive
+- Testimonial
+- Logo Banner (customers or technologies)
+- Stats
+- Awards List (year-grouped timeline from the Awards collection)
 
 Each block is fully designed and built into the front-end website that comes with this template. See [Website](#website) for more details.
 
@@ -152,16 +176,19 @@ We have configured [Scheduled Publish](https://payloadcms.com/docs/versions/draf
 
 ## Website
 
-This template includes a beautifully designed, production-ready front-end built with the [Next.js App Router](https://nextjs.org), served right alongside your Payload app in a instance. This makes it so that you can deploy both your backend and website where you need it.
+This template includes a beautifully designed, production-ready front-end built with [Next.js 16](https://nextjs.org) and the [App Router](https://nextjs.org/docs/app), served right alongside your Payload app in a single instance. This makes it so that you can deploy both your backend and website where you need it.
 
 Core features:
 
-- [Next.js App Router](https://nextjs.org)
+- [Next.js 16](https://nextjs.org) (Turbopack by default)
+- [Next.js App Router](https://nextjs.org/docs/app)
+- [Next.js Cache Components](https://nextjs.org/docs/app/api-reference/directives/use-cache) (`use cache`, on-demand + time-based revalidation)
 - [TypeScript](https://www.typescriptlang.org)
 - [React Hook Form](https://react-hook-form.com)
 - [Payload Admin Bar](https://github.com/payloadcms/payload/tree/main/packages/admin-bar)
 - [TailwindCSS styling](https://tailwindcss.com/)
 - [shadcn/ui components](https://ui.shadcn.com/)
+- [Centralized font config](#fonts) (Geist Sans / Mono)
 - User Accounts and Authentication
 - Fully featured blog
 - Publication workflow
@@ -170,11 +197,75 @@ Core features:
 - SEO
 - Search
 - Redirects
+- Internationalization (EN/BG)
 - Live preview
 
 ### Cache
 
-Although Next.js includes a robust set of caching strategies out of the box, Payload Cloud proxies and caches all files through Cloudflare using the [Official Cloud Plugin](https://www.npmjs.com/package/@payloadcms/payload-cloud). This means that Next.js caching is not needed and is disabled by default. If you are hosting your app outside of Payload Cloud, you can easily reenable the Next.js caching mechanisms by removing the `no-store` directive from all fetch requests in `./src/app/_api` and then removing all instances of `export const dynamic = 'force-dynamic'` from pages files, such as `./src/app/(pages)/[slug]/page.tsx`. For more details, see the official [Next.js Caching Docs](https://nextjs.org/docs/app/building-your-application/caching).
+This template uses **Next.js 16 Cache Components** (`use cache`) to cache CMS data and reduce backend load. Caching is enabled via `cacheComponents: true` in `next.config.js`.
+
+#### What is cached
+
+| Data | Utility | Cache tag(s) | Revalidation |
+|------|---------|--------------|--------------|
+| Pages, posts by slug | `getCachedDocument` | `pages_${slug}`, `posts_${slug}` | On-demand when content changes |
+| Document by ID (redirects) | `getCachedDocumentById` | `pages_id_${id}`, `posts_id_${id}` | On-demand |
+| Header, footer globals | `getCachedGlobal` | `global_header`, `global_footer` | On-demand when globals change |
+| Redirects list | `getCachedRedirects` | `redirects` | On-demand when redirects change |
+| Posts index & pagination | `getCachedPosts` | `posts-list` | Time-based (600s) + on-demand when posts change |
+| Pages sitemap | `getPagesSitemap` | `pages-sitemap` | On-demand when pages change |
+| Posts sitemap | `getPostsSitemap` | `posts-sitemap` | On-demand when posts change |
+
+#### How revalidation works
+
+- **On-demand:** Payload `afterChange` and `afterDelete` hooks call `revalidateTag(tag, 'max')` when content changes. This invalidates the relevant cache entries so the next request fetches fresh data.
+- **Time-based:** Posts list uses `cacheLife({ revalidate: 600 })` (10 minutes) as a fallback.
+
+#### What stays uncached
+
+- Page and post document fetches in `./src/app/(frontend)/[locale]/[slug]/page.tsx` and `./src/app/(frontend)/[locale]/posts/[slug]/page.tsx` use `React.cache` for request deduplication only (e.g. when both the page and `generateMetadata` fetch the same document). They do not use `use cache` because they depend on `draftMode()`, which cannot run inside a cached boundary.
+
+### Fonts
+
+Fonts are centralized in `src/config/fonts.ts` so you can swap or add fonts in one place. The root layout imports from this config and applies the font CSS variables to the `<html>` element.
+
+- **`fontSans`** — Used as Tailwind’s `font-sans` across the app (the root layout applies `font-sans` to `html`). Default: Geist Sans.
+- **`fontMono`** — Used as `font-mono`. Default: Geist Mono.
+
+To change fonts (e.g. for branding), edit `src/config/fonts.ts` only. Update the font loaders (`fontSans`, `fontMono`) and, if the new font uses different CSS variable names, the `fontSansVariable` and `fontMonoVariable` exports. The layout will then use those variables to map Tailwind’s `font-sans` and `font-mono`.
+
+### Cookies
+
+This template **does not set any cookies for public visitors**. The only cookies in the stack are:
+
+- **`payload-token`** — HTTP-only JWT auth cookie, set only when a user logs into the Payload admin panel.
+- **Next.js draft-mode cookie** — set only when an admin enters live preview.
+
+Because these are strictly necessary/functional cookies used exclusively by authenticated admin users, **no cookie consent banner is required** under the ePrivacy Directive (Article 5(3)) or GDPR. The template ships without one.
+
+**If you add analytics, tracking, or marketing scripts** (Google Analytics, Meta Pixel, etc.), you will need to implement a cookie consent banner. In that case, consider adding a `cookieBanner` field group to the `SiteSettings` global (for CMS-editable text) and a `'use client'` component in the locale layout that stores consent in a cookie so server-side code can conditionally load third-party scripts.
+
+### Internationalization
+
+The frontend supports **English** and **Bulgarian**. The admin panel stays in English.
+
+- **URL structure:** All frontend routes are prefixed with locale (e.g. `/en/about`, `/bg/za-nas`). The root `/` redirects to a locale based on `Accept-Language` (or `/en` as fallback).
+- **Content localization:** Pages, posts, header, and footer have localized fields. Add translations in the Payload admin per locale.
+- **UI translations:** End-user labels (nav, search, pagination, etc.) are in `src/i18n/translations.ts`.
+- **Locale switcher:** The header includes EN | BG links to switch locale while preserving the current path.
+
+In development, the schema (including localized fields) is created automatically by `push`. For production, run `pnpm payload migrate:create` to generate your first migration from the config, then `pnpm payload migrate`.
+
+#### Vercel deployment
+
+- **Default `use cache`:** Uses in-memory cache per serverless instance. Good for most cases.
+- **Optional `use cache: remote`:** For shared cache across all instances (better hit rates, fewer cold-start misses), switch to `'use cache: remote'` in the utilities and ensure [Runtime Cache](https://vercel.com/docs/runtime-cache) or custom `cacheHandlers` are configured.
+
+#### Payload Cloud
+
+Payload Cloud proxies and caches files through Cloudflare. Next.js caching still provides value (deduplication, prefetch hints, tag-based invalidation). If you prefer minimal Next.js caching for Cloud-only deployments, you can disable `cacheComponents` and remove `use cache` usage.
+
+For more details, see the [Next.js Caching Docs](https://nextjs.org/docs/app/building-your-application/caching) and `docs/NEXTJS_16_CACHING_ASSESSMENT.md` in this repo.
 
 ## Development
 
@@ -194,7 +285,11 @@ If your database is pointed to production you will want to set `push: false` oth
 
 #### Migrations
 
-[Migrations](https://payloadcms.com/docs/database/migrations) are essentially SQL code versions that keeps track of your schema. When deploy with Postgres you will need to make sure you create and then run your migrations.
+[Migrations](https://payloadcms.com/docs/database/migrations) are essentially SQL code versions that keeps track of your schema. When deploying with Postgres you will need to make sure you create and then run your migrations.
+
+This template ships without pre-built migrations. In development, `push` creates and updates the schema automatically. For production, run `migrate:create` first to generate migrations from your config, then `migrate` in your build or deploy pipeline. The generated `src/migrations` folder should be committed to your project (not gitignored) so schema changes are versioned.
+
+**Connection errors?** If `pnpm payload migrate` fails with `getaddrinfo ENOTFOUND` or `Failed query`, see [docs/MIGRATIONS_TROUBLESHOOTING.md](docs/MIGRATIONS_TROUBLESHOOTING.md).
 
 Locally create a migration
 
@@ -234,6 +329,45 @@ The seed script will also create a demo user for demonstration purposes only:
 
 > NOTICE: seeding the database is destructive because it drops your current database to populate a fresh one from the seed template. Only run this command if you are starting a new project or can afford to lose your current data.
 
+#### Seed data overview
+
+This template is based on the official [Payload Website Template](https://github.com/payloadcms/payload/tree/main/templates/website). The styling and visual presentation are intentionally left as your responsibility to adjust for your brand.
+
+This project additionally seeds both the original Payload demo content and the added agency-specific collections, so you can immediately verify the new UI pieces in the frontend.
+
+Collections seeded:
+
+- `pages` (includes a published `home` page that uses the Layout Builder blocks)
+- `posts` (used by the homepage `Archive` block)
+- `media` (image assets referenced by other collections)
+- `customers` (featured customer logos for the `Logo Banner` block)
+- `technologies` (partner logos for the `Logo Banner` block)
+- `testimonials` (data for the `Testimonial` block)
+- `awards` (year-grouped timeline for the `Awards List` block)
+- `team-members` (team list content)
+- `services` (service docs content)
+- `case-studies` (case study content)
+- `legal-pages` (policy/disclaimer content)
+- `demos` (demo product content)
+- `portfolio` (work showcase content)
+
+Globals seeded:
+
+- `header` (navigation + CTA buttons)
+- `footer` (link columns + social links)
+- `site-settings` (site name/description and contact info)
+
+#### Frontend features showcased on `Home`
+
+After seeding, the `home` page will render these Layout Builder blocks using the newly seeded collections:
+
+- `Stats` (agency metrics)
+- `Logo Banner` for both customers and technologies
+- `Testimonial` (carousel)
+- `Archive` (recent posts)
+- `Awards List` (year-grouped awards timeline)
+- `CTA` (call to action)
+
 ## Production
 
 To run Payload in production, you need to build and start the Admin panel. To do so, follow these steps:
@@ -258,7 +392,7 @@ export default buildConfig({
   // ...
   db: vercelPostgresAdapter({
     pool: {
-      connectionString: process.env.POSTGRES_URL || '',
+      connectionString: process.env.DATABASE_URL || '',
     },
   }),
   // ...
@@ -298,6 +432,41 @@ Before deploying your app, you need to:
 
 You can also deploy your app manually, check out the [deployment documentation](https://payloadcms.com/docs/production/deployment) for full details.
 
+## Template checklist
+
+This template has been upgraded to **Next.js 16**. Requires Node.js 20.9+.
+
+Before deploying, review this checklist. Several items are not enabled by default and may be required for your deployment target.
+
+### Vercel deployment
+
+- **[ ] Cache configuration** – Caching is enabled by default (`cacheComponents: true`, `use cache` in utilities). For Vercel, consider `use cache: remote` for shared cache across serverless instances. See the [Cache](#cache) section.
+- **[ ] Media storage** – Media uses [Vercel Blob Storage](https://vercel.com/docs/storage/vercel-blob) via `@payloadcms/storage-vercel-blob`. Create a Blob store in the Vercel dashboard (Storage → Blob) with **Public** access, then add `BLOB_READ_WRITE_TOKEN` to your environment variables. For local dev, run `vercel env pull` or copy the token from your Vercel project.
+- **[ ] `vercel.json` (Cron)** – If using [Scheduled Publish](https://payloadcms.com/docs/versions/drafts#scheduled-publish) or the jobs queue, add a `vercel.json` with a cron schedule that hits the Payload jobs endpoint with `CRON_SECRET` in the Authorization header.
+- **[ ] Postgres migrations** – Add `pnpm payload migrate` to your build or start script, or run it manually before `pnpm start` on each deploy. The `payload migrate:create` and `payload migrate` commands are documented in [Migrations](#migrations) but are not in `package.json` scripts.
+
+### Environment variables
+
+- **[ ] `DATABASE_URL`** – The template uses `process.env.DATABASE_URL` (Vercel + Neon Postgres default). Ensure your local `.env` points to a dev DB and Vercel has the production URL.
+- **[ ] `BLOB_READ_WRITE_TOKEN`** – Required for media uploads. Create a Blob store in Vercel (Storage → Blob) with **Public** access, then add the token to your project's environment variables.
+- **[ ] `NEXT_PUBLIC_SERVER_URL`** – Required for CORS, links, and preview. Use your production URL. Vercel sets `VERCEL_PROJECT_PRODUCTION_URL`; `next.config.js` uses it as a fallback, but custom domains or preview deployments may need an explicit value.
+
+### General
+
+- **[ ] Migrations (Postgres)** – When deploying with Postgres, run `pnpm payload migrate` after build and before `pnpm start`. Consider adding it to your deploy pipeline.
+- **[ ] Scheduled Publish** – Jobs queue is configured in `payload.config.ts`, but `jobs.tasks` is empty. If you use scheduled publish, ensure the relevant tasks are registered and `vercel.json` cron is set up.
+- **[ ] Cookie consent** – The template sets no cookies for public visitors (only admin auth), so no banner is included. If you add analytics or marketing scripts, you must add a cookie consent banner. See [Cookies](#cookies).
+
+## License
+This repository's original code is licensed under the MIT License. See `LICENSE` for the full text.
+
+This project is based on the official Payload Website Template:
+- https://github.com/payloadcms/payload/tree/main/templates/website
+
+Third-party technologies, dependencies, and any demo assets (images, logos, fonts, and other visual materials) are owned by their respective owners and are governed by their own licenses. See `THIRD_PARTY_NOTICES.md` for details and an "as-is" disclaimer for third-party materials.
+
 ## Questions
 
 If you have any issues or questions, reach out to us on [Discord](https://discord.com/invite/payload) or start a [GitHub discussion](https://github.com/payloadcms/payload/discussions).
+
+

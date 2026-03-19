@@ -1,21 +1,33 @@
-import { Button, type ButtonProps } from '@/components/ui/button'
+'use client'
+
+import { Button, buttonVariants } from '@/components/ui/button'
 import { cn } from '@/utilities/ui'
+import type { VariantProps } from 'class-variance-authority'
 import Link from 'next/link'
 import React from 'react'
 
-import type { Page, Post } from '@/payload-types'
+import type {
+  CaseStudy,
+  LegalPage,
+  Page,
+  Post,
+  Service,
+} from '@/payload-types'
+import { prefixWithLocale, useLocale } from '@/i18n/locale'
+
+type ButtonVariantProps = VariantProps<typeof buttonVariants>
 
 type CMSLinkType = {
-  appearance?: 'inline' | ButtonProps['variant']
+  appearance?: 'inline' | ButtonVariantProps['variant']
   children?: React.ReactNode
   className?: string
   label?: string | null
   newTab?: boolean | null
   reference?: {
-    relationTo: 'pages' | 'posts'
-    value: Page | Post | string | number
+    relationTo: 'pages' | 'posts' | 'services' | 'case-studies' | 'legal-pages'
+    value: Page | Post | Service | CaseStudy | LegalPage | string | number
   } | null
-  size?: ButtonProps['size'] | null
+  size?: ButtonVariantProps['size'] | null
   type?: 'custom' | 'reference' | null
   url?: string | null
 }
@@ -33,12 +45,20 @@ export const CMSLink: React.FC<CMSLinkType> = (props) => {
     url,
   } = props
 
-  const href =
-    type === 'reference' && typeof reference?.value === 'object' && reference.value.slug
-      ? `${reference?.relationTo !== 'pages' ? `/${reference?.relationTo}` : ''}/${
-          reference.value.slug
-        }`
-      : url
+  const locale = useLocale()
+
+  let href: string | undefined
+  if (type === 'reference' && typeof reference?.value === 'object' && reference.value.slug) {
+    const relationTo = reference.relationTo
+    const basePath =
+      relationTo === 'pages' ? '' : relationTo === 'posts' ? '/posts' : `/${relationTo}`
+    const slugPath = `${basePath}/${reference.value.slug}`.replace(/^\/+/, '/')
+    href = prefixWithLocale(slugPath, locale)
+  } else if (url) {
+    href = url.startsWith('/') ? prefixWithLocale(url, locale) : url
+  } else {
+    href = undefined
+  }
 
   if (!href) return null
 

@@ -8,7 +8,10 @@ const NEXT_PUBLIC_SERVER_URL = process.env.VERCEL_PROJECT_PRODUCTION_URL
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  cacheComponents: true,
   images: {
+    dangerouslyAllowLocalIP: process.env.NODE_ENV === 'development',
+    qualities: [100, 75],
     remotePatterns: [
       ...[NEXT_PUBLIC_SERVER_URL /* 'https://example.com' */].map((item) => {
         const url = new URL(item)
@@ -18,6 +21,12 @@ const nextConfig = {
           protocol: url.protocol.replace(':', ''),
         }
       }),
+      // Vercel Blob Storage URLs (e.g. https://<store>.public.blob.vercel-storage.com/...)
+      {
+        hostname: '**.public.blob.vercel-storage.com',
+        pathname: '/**',
+        protocol: 'https',
+      },
     ],
   },
   webpack: (webpackConfig) => {

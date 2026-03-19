@@ -12,6 +12,7 @@ export const Header: GlobalConfig = {
     {
       name: 'navItems',
       type: 'array',
+      localized: true,
       fields: [
         link({
           appearances: false,
@@ -24,6 +25,24 @@ export const Header: GlobalConfig = {
           RowLabel: '@/Header/RowLabel#RowLabel',
         },
       },
+    },
+    {
+      name: 'ctaButtons',
+      type: 'array',
+      localized: true,
+      maxRows: 3,
+      admin: {
+        description: 'Action buttons (e.g. Get a Quote, Client Login)',
+        initCollapsed: true,
+        components: {
+          RowLabel: '@/Header/RowLabel#RowLabel',
+        },
+      },
+      fields: [
+        link({
+          appearances: ['default', 'outline'],
+        }),
+      ],
     },
   ],
   hooks: {

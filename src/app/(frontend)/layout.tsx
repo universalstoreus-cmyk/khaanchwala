@@ -1,26 +1,35 @@
 import type { Metadata } from 'next'
 
+import {
+  fontMono,
+  fontMonoVariable,
+  fontSans,
+  fontSansVariable,
+} from '@/config/fonts'
 import { cn } from '@/utilities/ui'
-import { GeistMono } from 'geist/font/mono'
-import { GeistSans } from 'geist/font/sans'
-import React from 'react'
+import React, { Suspense } from 'react'
 
-import { AdminBar } from '@/components/AdminBar'
-import { Footer } from '@/Footer/Component'
-import { Header } from '@/Header/Component'
+import { AdminBarWrapper } from '@/components/AdminBar/AdminBarWrapper'
 import { Providers } from '@/providers'
 import { InitTheme } from '@/providers/Theme/InitTheme'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
-import { draftMode } from 'next/headers'
 
 import './globals.css'
 import { getServerSideURL } from '@/utilities/getURL'
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const { isEnabled } = await draftMode()
-
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html className={cn(GeistSans.variable, GeistMono.variable)} lang="en" suppressHydrationWarning>
+    <html
+      className={cn(fontSans.variable, fontMono.variable)}
+      style={
+        {
+          '--font-sans': `var(${fontSansVariable})`,
+          '--font-mono': `var(${fontMonoVariable})`,
+        } as React.CSSProperties
+      }
+      lang="en"
+      suppressHydrationWarning
+    >
       <head>
         <InitTheme />
         <link href="/favicon.ico" rel="icon" sizes="32x32" />
@@ -28,15 +37,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       </head>
       <body>
         <Providers>
-          <AdminBar
-            adminBarProps={{
-              preview: isEnabled,
-            }}
-          />
-
-          <Header />
+          <Suspense fallback={null}>
+            <AdminBarWrapper />
+          </Suspense>
           {children}
-          <Footer />
         </Providers>
       </body>
     </html>

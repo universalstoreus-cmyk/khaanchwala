@@ -2,16 +2,31 @@ import type { Config } from 'src/payload-types'
 
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
-import { unstable_cache } from 'next/cache'
+import { cacheTag } from 'next/cache'
+
+import type { Locale } from '@/i18n/config'
 
 type Collection = keyof Config['collections']
 
-async function getDocument(collection: Collection, slug: string, depth = 0) {
+/**
+ * Cached document fetch by slug. Use cacheTag for invalidation via revalidateTag(\`${collection}_${slug}\`).
+ * Pass locale for localized content.
+ */
+export async function getCachedDocument(
+  collection: Collection,
+  slug: string,
+  depth = 0,
+  locale: Locale = 'en',
+) {
+  'use cache'
+  cacheTag(`${collection}_${slug}`)
+
   const payload = await getPayload({ config: configPromise })
 
-  const page = await payload.find({
+  const result = await payload.find({
     collection,
     depth,
+    locale,
     where: {
       slug: {
         equals: slug,
@@ -19,13 +34,31 @@ async function getDocument(collection: Collection, slug: string, depth = 0) {
     },
   })
 
-  return page.docs[0]
+  return result.docs[0]
 }
 
 /**
- * Returns a unstable_cache function mapped with the cache tag for the slug
+ * Cached document fetch by ID. Use cacheTag for invalidation via revalidateTag(\`${collection}_id_${id}\`).
+ * Used by PayloadRedirects when resolving reference IDs.
+ * Pass locale for localized content.
  */
-export const getCachedDocument = (collection: Collection, slug: string) =>
-  unstable_cache(async () => getDocument(collection, slug), [collection, slug], {
-    tags: [`${collection}_${slug}`],
+export async function getCachedDocumentById(
+  collection: Collection,
+  id: string | number,
+  depth = 0,
+  locale: Locale = 'en',
+) {
+  'use cache'
+  cacheTag(`${collection}_id_${id}`)
+
+  const payload = await getPayload({ config: configPromise })
+
+  const doc = await payload.findByID({
+    collection,
+    id,
+    depth,
+    locale,
   })
+
+  return doc
+}

@@ -7,6 +7,7 @@ import React, { Fragment } from 'react'
 import type { Post } from '@/payload-types'
 
 import { Media } from '@/components/Media'
+import { prefixWithLocale, useLocale } from '@/i18n/locale'
 
 export type CardPostData = Pick<Post, 'slug' | 'categories' | 'meta' | 'title'>
 
@@ -21,13 +22,15 @@ export const Card: React.FC<{
   const { card, link } = useClickableCard({})
   const { className, doc, relationTo, showCategories, title: titleFromProps } = props
 
+  const locale = useLocale()
   const { slug, categories, meta, title } = doc || {}
   const { description, image: metaImage } = meta || {}
 
   const hasCategories = categories && Array.isArray(categories) && categories.length > 0
   const titleToUse = titleFromProps || title
   const sanitizedDescription = description?.replace(/\s/g, ' ') // replace non-breaking space with white space
-  const href = `/${relationTo}/${slug}`
+  const baseHref = relationTo && slug ? `/${relationTo}/${slug}` : '#'
+  const href = baseHref !== '#' ? prefixWithLocale(baseHref, locale) : baseHref
 
   return (
     <article

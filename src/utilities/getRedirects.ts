@@ -1,8 +1,14 @@
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
-import { unstable_cache } from 'next/cache'
+import { cacheTag } from 'next/cache'
 
-export async function getRedirects(depth = 1) {
+/**
+ * Cached redirects fetch. Use cacheTag for invalidation via revalidateTag('redirects').
+ */
+export async function getCachedRedirects(depth = 1) {
+  'use cache'
+  cacheTag('redirects')
+
   const payload = await getPayload({ config: configPromise })
 
   const { docs: redirects } = await payload.find({
@@ -14,13 +20,3 @@ export async function getRedirects(depth = 1) {
 
   return redirects
 }
-
-/**
- * Returns a unstable_cache function mapped with the cache tag for 'redirects'.
- *
- * Cache all redirects together to avoid multiple fetches.
- */
-export const getCachedRedirects = () =>
-  unstable_cache(async () => getRedirects(), ['redirects'], {
-    tags: ['redirects'],
-  })

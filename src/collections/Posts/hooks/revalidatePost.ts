@@ -16,7 +16,10 @@ export const revalidatePost: CollectionAfterChangeHook<Post> = ({
       payload.logger.info(`Revalidating post at path: ${path}`)
 
       revalidatePath(path)
-      revalidateTag('posts-sitemap')
+      revalidateTag('posts-sitemap', 'max')
+      revalidateTag('posts-list', 'max')
+      revalidateTag(`posts_${doc.slug}`, 'max')
+      revalidateTag(`posts_id_${doc.id}`, 'max')
     }
 
     // If the post was previously published, we need to revalidate the old path
@@ -26,7 +29,15 @@ export const revalidatePost: CollectionAfterChangeHook<Post> = ({
       payload.logger.info(`Revalidating old post at path: ${oldPath}`)
 
       revalidatePath(oldPath)
-      revalidateTag('posts-sitemap')
+      revalidateTag('posts-sitemap', 'max')
+      revalidateTag('posts-list', 'max')
+      revalidateTag(`posts_${previousDoc.slug}`, 'max')
+      revalidateTag(`posts_id_${previousDoc.id}`, 'max')
+    }
+
+    // If slug changed, also revalidate the old slug's document cache (used by PayloadRedirects)
+    if (previousDoc?.slug && previousDoc.slug !== doc.slug) {
+      revalidateTag(`posts_${previousDoc.slug}`, 'max')
     }
   }
   return doc
@@ -37,7 +48,10 @@ export const revalidateDelete: CollectionAfterDeleteHook<Post> = ({ doc, req: { 
     const path = `/posts/${doc?.slug}`
 
     revalidatePath(path)
-    revalidateTag('posts-sitemap')
+    revalidateTag('posts-sitemap', 'max')
+    revalidateTag('posts-list', 'max')
+    if (doc?.slug) revalidateTag(`posts_${doc.slug}`, 'max')
+    if (doc?.id) revalidateTag(`posts_id_${doc.id}`, 'max')
   }
 
   return doc

@@ -50,10 +50,10 @@ export const Archive: Block = {
       defaultValue: 'posts',
       label: 'Collections To Show',
       options: [
-        {
-          label: 'Posts',
-          value: 'posts',
-        },
+        { label: 'Posts', value: 'posts' },
+        { label: 'Services', value: 'services' },
+        { label: 'Case Studies', value: 'case-studies' },
+        { label: 'Portfolio', value: 'portfolio' },
       ],
     },
     {
@@ -84,7 +84,7 @@ export const Archive: Block = {
       },
       hasMany: true,
       label: 'Selection',
-      relationTo: ['posts'],
+      relationTo: ['posts', 'services', 'case-studies', 'portfolio'],
     },
   ],
   labels: {
