@@ -456,6 +456,7 @@ Before deploying, review this checklist. Several items are not enabled by defaul
 - **[ ] Migrations (Postgres)** – When deploying with Postgres, run `pnpm payload migrate` after build and before `pnpm start`. Consider adding it to your deploy pipeline.
 - **[ ] Scheduled Publish** – Jobs queue is configured in `payload.config.ts`, but `jobs.tasks` is empty. If you use scheduled publish, ensure the relevant tasks are registered and `vercel.json` cron is set up.
 - **[ ] Cookie consent** – The template sets no cookies for public visitors (only admin auth), so no banner is included. If you add analytics or marketing scripts, you must add a cookie consent banner. See [Cookies](#cookies).
+- **[ ] Email service wiring** – This template does not include an email provider integration. If you need emails (for example contact form delivery, password resets, or notifications), implement that in your code and configure the required credentials.
 
 ## License
 This repository's original code is licensed under the MIT License. See `LICENSE` for the full text.
