@@ -11,6 +11,9 @@ import { CaseStudies } from './collections/CaseStudies'
 import { Categories } from './collections/Categories'
 import { Customers } from './collections/Customers'
 import { Demos } from './collections/Demos'
+import { Faqs } from './collections/Faqs'
+import { Leads } from './collections/Leads'
+import { GlassOptions } from './blocks/GlassOptions/config'
 import { LegalPages } from './collections/LegalPages'
 import { Portfolio } from './collections/Portfolio'
 import { Media } from './collections/Media'
@@ -23,6 +26,7 @@ import { Testimonials } from './collections/Testimonials'
 import { Users } from './collections/Users'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
+import { InstallationProcess } from './blocks/InstallationProcess/config'
 import { SiteSettings } from './globals/SiteSettings/config'
 import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
@@ -104,6 +108,8 @@ export default buildConfig({
     Awards,
     Services,
     CaseStudies,
+    Faqs,
+    Leads,
     LegalPages,
     Demos,
     Portfolio,

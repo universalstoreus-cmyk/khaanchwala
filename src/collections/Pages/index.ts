@@ -6,7 +6,10 @@ import { Archive } from '../../blocks/ArchiveBlock/config'
 import { AwardsList } from '../../blocks/AwardsList/config'
 import { CallToAction } from '../../blocks/CallToAction/config'
 import { Content } from '../../blocks/Content/config'
+import { FaqBlock } from '@/collections/Faqs'
 import { FormBlock } from '../../blocks/Form/config'
+import { GlassOptions } from '@/blocks/GlassOptions/config'
+import { InstallationProcess } from '@/blocks/InstallationProcess/config'
 import { LogoBanner } from '../../blocks/LogoBanner/config'
 import { MediaBlock } from '../../blocks/MediaBlock/config'
 import { Stats } from '../../blocks/Stats/config'
@@ -80,9 +83,12 @@ export const Pages: CollectionConfig<'pages'> = {
               blocks: [
                 CallToAction,
                 Content,
+                FaqBlock,
                 MediaBlock,
                 Archive,
                 FormBlock,
+                GlassOptions,
+                InstallationProcess,
                 Testimonial,
                 LogoBanner,
                 Stats,

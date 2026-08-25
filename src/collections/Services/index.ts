@@ -27,16 +27,16 @@ import {
 import { slugField } from 'payload'
 
 const serviceIconOptions = [
-  { label: 'Brain (AI)', value: 'brain' },
-  { label: 'Code', value: 'code' },
+  { label: 'Window', value: 'window' },
+  { label: 'Glass', value: 'glass' },
+  { label: 'Folder', value: 'folder' },
+  { label: 'Shape', value: 'shape' },
+  { label: 'Loader2', value: 'loader2' },
   { label: 'Palette', value: 'palette' },
   { label: 'Layout', value: 'layout' },
   { label: 'Megaphone', value: 'megaphone' },
   { label: 'Rocket', value: 'rocket' },
   { label: 'Shield', value: 'shield' },
-  { label: 'Zap', value: 'zap' },
-  { label: 'Globe', value: 'globe' },
-  { label: 'Smartphone', value: 'smartphone' },
 ]
 
 export const Services: CollectionConfig<'services'> = {

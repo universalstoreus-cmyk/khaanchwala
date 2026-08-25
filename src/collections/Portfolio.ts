@@ -70,6 +70,15 @@ export const Portfolio: CollectionConfig = {
       hasMany: true,
     },
     {
+      name: 'glassOptions',
+      type: 'relationship',
+      relationTo: 'media',
+      hasMany: true,
+      admin: {
+        description: 'Related glass types for this project',
+      },
+    },
+    {
       name: 'featured',
       type: 'checkbox',
       defaultValue: false,
