@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
 import { slugField } from 'payload'
+import { authenticated } from '@/access/authenticated'
 
 export const Leads: CollectionConfig = {
   slug: 'leads',
