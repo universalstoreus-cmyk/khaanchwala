@@ -1,4 +1,6 @@
 import type { CollectionConfig } from 'payload'
+import { revalidateTag } from 'next/cache'
+import { authenticated } from '@/access/authenticated'
 
 import { slugField } from 'payload'
 
@@ -144,4 +146,3 @@ export const Leads: CollectionConfig = {
   },
   timestamps: true,
 }
-
