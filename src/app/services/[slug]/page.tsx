@@ -2,6 +2,7 @@ import React from 'react'
 import { getPayload } from 'payload'
 import { notFound } from 'next/navigation'
 
+import config from '@/payload.config'
 import { CMSLink } from '@/components/Link'
 import RichText from '@/components/RichText'
 
@@ -11,7 +12,7 @@ export default async function ServiceDetailPage({
   params: Promise<{ slug: string }>
 }) {
   const { slug } = await params
-  const payload = await getPayload()
+  const payload = await getPayload({ config })
 
   const { docs } = await payload.find({
     collection: 'services',
