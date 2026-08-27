@@ -2,9 +2,6 @@ import type { CollectionConfig } from 'payload'
 import { revalidateTag } from 'next/cache'
 import { authenticated } from '@/access/authenticated'
 
-import { slugField } from 'payload'
-import { authenticated } from '@/access/authenticated'
-
 export const Leads: CollectionConfig = {
   slug: 'leads',
   access: {
@@ -54,22 +51,22 @@ export const Leads: CollectionConfig = {
       name: 'service',
       type: 'select',
       required: true,
+      options: [
+        { label: 'Frameless Glass Partitions', value: 'frameless-partitions' },
+        { label: 'Aluminium Framed Partitions', value: 'aluminium-partitions' },
+        { label: 'Half Glass Partitions', value: 'half-partitions' },
+        { label: 'Sliding Glass Partitions', value: 'sliding-partitions' },
+        { label: 'Double Glazed Partitions', value: 'double-glazed' },
+        { label: 'Curved Glass Partitions', value: 'curved-partitions' },
+        { label: 'Glass Doors', value: 'glass-doors' },
+        { label: 'Office Glass Solutions', value: 'office-glass' },
+        { label: 'Shower Enclosures', value: 'shower-enclosures' },
+        { label: 'Glass Railings', value: 'glass-railings' },
+        { label: 'Mirrors', value: 'mirrors' },
+        { label: 'Custom Glass Solutions', value: 'custom-solutions' },
+      ],
       admin: {
         description: 'Service of interest',
-        options: [
-          { label: 'Frameless Glass Partitions', value: 'frameless-partitions' },
-          { label: 'Aluminium Framed Partitions', value: 'aluminium-partitions' },
-          { label: 'Half Glass Partitions', value: 'half-partitions' },
-          { label: 'Sliding Glass Partitions', value: 'sliding-partitions' },
-          { label: 'Double Glazed Partitions', value: 'double-glazed' },
-          { label: 'Curved Glass Partitions', value: 'curved-partitions' },
-          { label: 'Glass Doors', value: 'glass-doors' },
-          { label: 'Office Glass Solutions', value: 'office-glass' },
-          { label: 'Shower Enclosures', value: 'shower-enclosures' },
-          { label: 'Glass Railings', value: 'glass-railings' },
-          { label: 'Mirrors', value: 'mirrors' },
-          { label: 'Custom Glass Solutions', value: 'custom-solutions' },
-        ],
       },
     },
     {
@@ -92,16 +89,16 @@ export const Leads: CollectionConfig = {
       type: 'select',
       defaultValue: 'New',
       required: true,
+      options: [
+        { label: 'New', value: 'New' },
+        { label: 'Contacted', value: 'Contacted' },
+        { label: 'Qualified', value: 'Qualified' },
+        { label: 'Quoted', value: 'Quoted' },
+        { label: 'Converted', value: 'Converted' },
+        { label: 'Closed', value: 'Closed' },
+      ],
       admin: {
         description: 'Current status of the lead',
-        options: [
-          { label: 'New', value: 'New' },
-          { label: 'Contacted', value: 'Contacted' },
-          { label: 'Qualified', value: 'Qualified' },
-          { label: 'Quoted', value: 'Quoted' },
-          { label: 'Converted', value: 'Converted' },
-          { label: 'Closed', value: 'Closed' },
-        ],
       },
     },
     {
