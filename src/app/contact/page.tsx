@@ -1,14 +1,19 @@
 import React from 'react'
 import type { Metadata } from 'next'
+import { getPayload } from 'payload'
 
 import { FaqBlock } from '@/collections/Faqs'
+import config from '@/payload.config'
 
 export const metadata: Metadata = {
   title: 'Contact Us | Kaanchwala Glass & Mirror Solutions',
   description: 'Contact Kaanchwala Glass & Mirror Solutions for a free consultation and quote',
 }
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const payload = await getPayload({ config })
+  const siteSettings: any = await payload.findGlobal({ slug: 'site-settings' })
+
   return (
     <div className="min-h-screen">
       <section className="py-24 md:py-32 lg:py-40 bg-white dark:bg-gray-900">
@@ -19,8 +24,8 @@ export default function ContactPage() {
                 <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">Get In Touch</h2>
                 <p className="text-gray-600 dark:text-gray-300 mb-8 line-clamp-3">Have a project in mind? Contact us for a free consultation. Our team is ready to help you find the perfect glass solution for your space.</p>
                 <div className="space-y-4 text-gray-600 dark:text-gray-300">
-                  <div className="flex items-start gap-4"><div><p className="font-medium">+1 (234) 567-890</p><p className="text-sm">Mon - Sat: 9AM - 6PM</p></div></div>
-                  <div className="flex items-start gap-4"><div><p className="font-medium">123 Glass Street, City Center</p><p className="text-sm">info@kaanchwala.com</p></div></div>
+                  <div className="flex items-start gap-4"><div><p className="font-medium">{siteSettings?.contactPhone || '+1 (234) 567-890'}</p><p className="text-sm">Mon - Sat: 9AM - 6PM</p></div></div>
+                  <div className="flex items-start gap-4"><div><p className="font-medium">{siteSettings?.address || '123 Glass Street, City Center'}</p><p className="text-sm">{siteSettings?.contactEmail || 'info@kaanchwala.com'}</p></div></div>
                 </div>
                 <div className="mt-8 pt-8 border-t border-gray-100 dark:border-gray-800">
                   <h3 className="font-medium text-gray-900 dark:text-white mb-4">Social Links</h3>
