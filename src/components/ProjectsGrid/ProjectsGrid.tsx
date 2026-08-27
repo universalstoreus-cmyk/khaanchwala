@@ -57,7 +57,7 @@ export const ProjectsGrid: React.FC<{
                         alt={project.title}
                         className="w-full h-48 object-cover transition-opacity duration-300 group-hover:opacity-90"
                       />
-                    }}
+                    )}
 
                     <div className="p-6 flex-1 flex flex-col">
                       <h3 className="text-xl font-medium text-gray-900 dark:text-white mb-1">
