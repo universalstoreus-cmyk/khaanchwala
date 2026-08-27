@@ -29,7 +29,7 @@ export const ServiceGrid: React.FC<{
               return (
                 <Link
                   key={service.id}
-                  href={`/services/${service.slug}}`
+                  href={`/services/${service.slug}`}
                   className="group rounded-2xl overflow-hidden hover:bg-white dark:hover:bg-gray-800 transition-colors"
                 >
                   <Card className="relative h-full flex flex-col">
@@ -39,7 +39,7 @@ export const ServiceGrid: React.FC<{
                         alt={service.title}
                         className="w-full h-48 object-cover transition-opacity duration-300 group-hover:opacity-90"
                       />
-                    }}
+                    )}
 
                     <div className="p-6 flex-1 flex flex-col">
                       <div className="flex items-center mb-3">
