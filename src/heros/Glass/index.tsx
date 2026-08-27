@@ -3,7 +3,7 @@
 import React from 'react'
 
 import { getCachedGlobal } from '@/utilities/getGlobals'
-import { ThemeContext } from '@/providers/Theme'
+import { useTheme } from '@/providers/Theme'
 import { useImage } from '@/hooks/useImage'
 
 import { Media } from '@/components/Media'
@@ -42,7 +42,7 @@ export const GlassHero: React.FC<GlassHeroProps> = ({
   mobileHeroImage,
   locale = 'en',
 }) => {
-  const { theme } = React.useContext(ThemeContext)
+  const { theme } = useTheme()
 
   return (
     <section
