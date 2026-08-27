@@ -9,12 +9,12 @@ import { InstallationProcess } from '@/components/InstallationProcess/Installati
 import { CTASection } from '@/components/CTASection/CTASection'
 import { getCachedGlobal } from '@/utilities/getGlobals'
 
+import config from '@/payload.config'
+
 export default async function HomePage() {
   const siteSettings: any = await getCachedGlobal('site-settings', 1, 'en')
 
-  const payload = await getPayload({
-    config: await import('@/payload-config').then((mod) => mod.default),
-  })
+  const payload = await getPayload({ config })
 
   const [{ docs: services }, { docs: projects }, { docs: testimonials }] = await Promise.all([
     payload.find({ collection: 'services', where: { published: { equals: true } }, limit: 6 }),
