@@ -8,7 +8,6 @@ import { useImage } from '@/hooks/useImage'
 
 import { Media } from '@/components/Media'
 import { CMSLink } from '@/components/Link'
-import { RichText } from '@/components/RichText'
 import { getLocalizedPath, type Locale } from '@/i18n/config'
 
 type GlassHeroProps = {
