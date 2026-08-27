@@ -3,7 +3,7 @@ import { getPayload } from 'payload'
 import { notFound } from 'next/navigation'
 
 import { CMSLink } from '@/components/Link'
-import { RichText } from '@/components/RichText'
+import RichText from '@/components/RichText'
 
 export default async function ServiceDetailPage({
   params,
