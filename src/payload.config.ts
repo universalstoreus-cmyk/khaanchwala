@@ -35,6 +35,11 @@ import { migrations } from './migrations'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
+// Explicitly pass the production connection string so this project works with
+// the standard DATABASE_URL used by Payload/Vercel deployments. The Vercel
+// adapter otherwise defaults to POSTGRES_URL, which is not present in this project.
+const databaseUrl = process.env.DATABASE_URL || process.env.POSTGRES_URL || ''
+
 export default buildConfig({
   i18n: { supportedLanguages: { en }, fallbackLanguage: 'en' },
   localization: {
@@ -61,9 +66,10 @@ export default buildConfig({
     },
   },
   editor: defaultLexical,
-  // The Vercel Postgres adapter uses POSTGRES_URL by default. Keeping the
-  // adapter unconfigured here also avoids passing an empty connection pool.
-  db: vercelPostgresAdapter({ prodMigrations: migrations }),
+  db: vercelPostgresAdapter({
+    pool: { connectionString: databaseUrl },
+    prodMigrations: migrations,
+  }),
   collections: [
     Pages, Posts, Media, Categories, Customers, Technologies, TeamMembers,
     Testimonials, Awards, Services, CaseStudies, Faqs, Leads, LegalPages,
