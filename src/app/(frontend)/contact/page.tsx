@@ -1,0 +1,5 @@
+import Link from 'next/link'
+
+export default function ContactPage() {
+  return <main className="container py-16"><Link href="/" className="text-sm font-bold text-[#0644a4]">← Home</Link><div className="mt-6 grid gap-10 md:grid-cols-2"><div><h1 className="text-4xl font-black">Get a Free Quote</h1><p className="mt-4 leading-7 text-slate-600">Tell us about your glass requirement and our team will get back to you.</p><div className="mt-8 space-y-3 text-sm"><p>📍 Ameerpet, Hyderabad - 500038</p><p>☎ +91 90000 00000</p><p>✉ info@kaanchwala.com</p></div></div><form className="rounded-xl border bg-white p-6 shadow-sm"><label className="block text-sm font-bold">Name<input name="name" className="mt-2 w-full rounded border p-3" /></label><label className="mt-4 block text-sm font-bold">Phone<input name="phone" className="mt-2 w-full rounded border p-3" /></label><label className="mt-4 block text-sm font-bold">Requirement<textarea name="message" rows={5} className="mt-2 w-full rounded border p-3" /></label><button type="submit" className="mt-5 rounded bg-[#0644a4] px-6 py-3 font-bold text-white">REQUEST QUOTE</button></form></div></main>
+}
