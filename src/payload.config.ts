@@ -35,10 +35,10 @@ import { migrations } from './migrations'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
-// Explicitly pass the production connection string so this project works with
-// the standard DATABASE_URL used by Payload/Vercel deployments. The Vercel
-// adapter otherwise defaults to POSTGRES_URL, which is not present in this project.
-const databaseUrl = process.env.DATABASE_URL || process.env.POSTGRES_URL || ''
+// Vercel must contain only the connection-string value. If an accidental
+// `DATABASE_URL=` prefix was pasted into the secret, strip it safely here.
+const rawDatabaseUrl = process.env.DATABASE_URL || process.env.POSTGRES_URL || ''
+const databaseUrl = rawDatabaseUrl.replace(/^DATABASE_URL\s*=\s*/i, '').replace(/^POSTGRES_URL\s*=\s*/i, '').trim()
 
 export default buildConfig({
   i18n: { supportedLanguages: { en }, fallbackLanguage: 'en' },
