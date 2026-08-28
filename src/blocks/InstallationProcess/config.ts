@@ -19,7 +19,6 @@ export const InstallationProcess: Block = {
           required: true,
           admin: {
             description: 'Step number',
-            precision: 0,
           },
         },
         {
