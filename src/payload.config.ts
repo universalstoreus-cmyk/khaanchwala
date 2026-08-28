@@ -4,7 +4,6 @@ import path from 'path'
 import { buildConfig, PayloadRequest } from 'payload'
 import { fileURLToPath } from 'url'
 import { en } from '@payloadcms/translations/languages/en'
-// import { bg } from '@payloadcms/translations/languages/bg' // Uncomment for admin UI in Bulgarian
 
 import { Awards } from './collections/Awards'
 import { CaseStudies } from './collections/CaseStudies'
@@ -31,6 +30,7 @@ import { SiteSettings } from './globals/SiteSettings/config'
 import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
+import { migrations } from './migrations'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -38,7 +38,6 @@ const dirname = path.dirname(filename)
 export default buildConfig({
   i18n: {
     supportedLanguages: { en },
-    // supportedLanguages: { en, bg }, // Uncomment to enable Bulgarian in admin
     fallbackLanguage: 'en',
   },
   localization: {
@@ -51,51 +50,24 @@ export default buildConfig({
   },
   admin: {
     components: {
-      // The `BeforeLogin` component renders a message that you see while logging into your admin panel.
-      // Feel free to delete this at any time. Simply remove the line below.
       beforeLogin: ['@/components/BeforeLogin'],
-      // The `BeforeDashboard` component renders the 'welcome' block that you see after logging into your admin panel.
-      // Feel free to delete this at any time. Simply remove the line below.
       beforeDashboard: ['@/components/BeforeDashboard'],
     },
-    importMap: {
-      baseDir: path.resolve(dirname),
-    },
+    importMap: { baseDir: path.resolve(dirname) },
     user: Users.slug,
     livePreview: {
       breakpoints: [
-        {
-          label: 'Mobile',
-          name: 'mobile',
-          width: 375,
-          height: 667,
-        },
-        {
-          label: 'Tablet',
-          name: 'tablet',
-          width: 768,
-          height: 1024,
-        },
-        {
-          label: 'Desktop',
-          name: 'desktop',
-          width: 1440,
-          height: 900,
-        },
+        { label: 'Mobile', name: 'mobile', width: 375, height: 667 },
+        { label: 'Tablet', name: 'tablet', width: 768, height: 1024 },
+        { label: 'Desktop', name: 'desktop', width: 1440, height: 900 },
       ],
     },
   },
-  // This config helps us configure global or default features that the other editors can inherit
   editor: defaultLexical,
-  db: vercelPostgresAdapter({
-    // DATABASE_URL is the default env var from Vercel (Neon Postgres). Only pass when it's a Postgres URL.
-    pool: (() => {
-      const url = process.env.DATABASE_URL?.startsWith('postgresql')
-        ? process.env.DATABASE_URL
-        : null
-      return url ? { connectionString: url } : {}
-    })(),
-  }),
+  // The Vercel Postgres adapter automatically reads POSTGRES_URL when no
+  // connection options are supplied. This also preserves DATABASE_URL as a
+  // supported override through the adapter's normal configuration.
+  db: vercelPostgresAdapter(),
   collections: [
     Pages,
     Posts,
@@ -120,23 +92,17 @@ export default buildConfig({
   plugins,
   secret: process.env.PAYLOAD_SECRET || '',
   sharp,
-  typescript: {
-    outputFile: path.resolve(dirname, 'payload-types.ts'),
-  },
+  typescript: { outputFile: path.resolve(dirname, 'payload-types.ts') },
+  // Run committed migrations at server initialization in production. This
+  // avoids making the Vercel build depend on a live database connection.
+  db: vercelPostgresAdapter({ prodMigrations: migrations }),
   jobs: {
     access: {
       run: ({ req }: { req: PayloadRequest }): boolean => {
-        // Allow logged in users to execute this endpoint (default)
         if (req.user) return true
-
         const secret = process.env.CRON_SECRET
         if (!secret) return false
-
-        // If there is no logged in user, then check
-        // for the Vercel Cron secret to be present as an
-        // Authorization header:
-        const authHeader = req.headers.get('authorization')
-        return authHeader === `Bearer ${secret}`
+        return req.headers.get('authorization') === `Bearer ${secret}`
       },
     },
     tasks: [],
