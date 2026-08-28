@@ -35,13 +35,34 @@ import { migrations } from './migrations'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
-// Use the standard Payload Postgres adapter so Supabase/Postgres connections
-// are handled directly by node-postgres rather than the Vercel-specific driver.
+// Vercel serverless functions are IPv4-only. Supabase direct database
+// endpoints are IPv6 by default, so use Supavisor's IPv4 session pooler
+// for Payload's Postgres adapter. Session mode (5432) also supports the
+// connection/session behavior Payload needs, including migrations.
 const rawDatabaseUrl = process.env.DATABASE_URL || process.env.POSTGRES_URL || ''
-const databaseUrl = rawDatabaseUrl
-  .replace(/^DATABASE_URL\s*=\s*/i, '')
-  .replace(/^POSTGRES_URL\s*=\s*/i, '')
-  .trim()
+
+const databaseUrl = (() => {
+  if (!rawDatabaseUrl) return ''
+
+  const cleaned = rawDatabaseUrl
+    .replace(/^DATABASE_URL\s*=\s*/i, '')
+    .replace(/^POSTGRES_URL\s*=\s*/i, '')
+    .trim()
+
+  try {
+    const url = new URL(cleaned)
+
+    if (url.hostname === 'db.nnkmwaiifdkcsddptqca.supabase.co') {
+      url.hostname = 'aws-0-ap-south-1.pooler.supabase.com'
+      url.port = '5432'
+      url.username = 'postgres.nnkmwaiifdkcsddptqca'
+    }
+
+    return url.toString()
+  } catch {
+    return cleaned
+  }
+})()
 
 export default buildConfig({
   i18n: { supportedLanguages: { en }, fallbackLanguage: 'en' },
