@@ -13,6 +13,23 @@ jobs:
   generate:
     if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: payload
+          POSTGRES_PASSWORD: payload
+          POSTGRES_DB: payload_dev
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U payload -d payload_dev"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      DATABASE_URL: postgresql://payload:payload@127.0.0.1:5432/payload_dev
+      PAYLOAD_SECRET: ci-migration-secret
     steps:
       - name: Checkout
         uses: actions/checkout@v4
