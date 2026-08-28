@@ -4,6 +4,7 @@ import * as migration_20260828_082514_initial from './20260828_082514_initial';
 import * as migration_20260828_083229_initial from './20260828_083229_initial';
 import * as migration_20260828_084441_initial from './20260828_084441_initial';
 import * as migration_20260828_091238_initial from './20260828_091238_initial';
+import * as migration_20260828_091345_initial from './20260828_091345_initial';
 
 export const migrations = [
   {
@@ -34,6 +35,11 @@ export const migrations = [
   {
     up: migration_20260828_091238_initial.up,
     down: migration_20260828_091238_initial.down,
-    name: '20260828_091238_initial'
+    name: '20260828_091238_initial',
+  },
+  {
+    up: migration_20260828_091345_initial.up,
+    down: migration_20260828_091345_initial.down,
+    name: '20260828_091345_initial'
   },
 ];
