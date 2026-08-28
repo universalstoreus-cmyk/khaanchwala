@@ -32,6 +32,11 @@ export default async function PortfolioDetailPage({
 
   if (!project) notFound()
 
+  const media = project.media && typeof project.media !== 'number' ? project.media : null
+  const glassOptions = project.glassOptions ?? []
+  const features = project.features ?? []
+  const categories = project.categories ?? []
+
   return (
     <div className="min-h-screen">
       <section className="py-24 md:py-32 bg-white dark:bg-gray-900">
@@ -43,9 +48,9 @@ export default async function PortfolioDetailPage({
               <span className="separator mx-1">/</span><span>{project.title}</span>
             </nav>
 
-            {project.media && project.media.length > 0 && (
+            {media && (
               <div className="rounded-2xl overflow-hidden mb-8 shadow-lg dark:shadow-2xl">
-                <Media priority resource={project.media[0]} imgClassName="h-64 w-full object-cover" />
+                <Media priority resource={media} imgClassName="h-64 w-full object-cover" />
               </div>
             )}
 
@@ -54,18 +59,16 @@ export default async function PortfolioDetailPage({
               <p className="text-gray-600 dark:text-gray-300 mb-8 line-clamp-3">{project.description}</p>
 
               <div className="mb-8 flex flex-col md:flex-row gap-4 items-start">
-                <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-                  <span>{project.client?.name || 'Client'}</span>
-                </div>
+                <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400"><span>{project.client?.name || 'Client'}</span></div>
                 {project.location && <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400"><span>{project.location}</span></div>}
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-                {project.glassOptions?.length > 0 && (
+                {glassOptions.length > 0 && (
                   <div>
                     <h2 className="text-xl font-medium text-gray-900 dark:text-white mb-4">Glass Types Used</h2>
                     <div className="grid grid-cols-2 gap-4">
-                      {project.glassOptions.map((glass, index) => (
+                      {glassOptions.map((glass, index) => (
                         <div key={index} className="p-3 rounded-lg bg-gray-50 dark:bg-gray-800">
                           <h3 className="font-medium text-gray-900 dark:text-white">{glass.title}</h3>
                           <p className="text-gray-600 dark:text-gray-300 text-sm line-clamp-1">{glass.description || 'High-quality glass solution'}</p>
@@ -75,11 +78,11 @@ export default async function PortfolioDetailPage({
                   </div>
                 )}
 
-                {project.features && project.features.length > 0 && (
+                {features.length > 0 && (
                   <div>
                     <h2 className="text-xl font-medium text-gray-900 dark:text-white mb-4">Features</h2>
                     <ul className="space-y-2 text-gray-600 dark:text-gray-300 text-sm">
-                      {project.features.map((feature) => <li key={feature}>{feature}</li>)}
+                      {features.map((feature) => <li key={feature}>{feature}</li>)}
                     </ul>
                   </div>
                 )}
@@ -88,7 +91,7 @@ export default async function PortfolioDetailPage({
                   <h2 className="text-xl font-medium text-gray-900 dark:text-white mb-4">Project Information</h2>
                   <div className="grid grid-cols-2 gap-4 text-gray-600 dark:text-gray-300 text-sm">
                     <div><strong>Completion Date:</strong> {project.completionDate || 'Completed'}</div>
-                    <div><strong>Category:</strong> {project.categories?.[0]?.name || 'Commercial'}</div>
+                    <div><strong>Category:</strong> {categories[0]?.name || 'Commercial'}</div>
                   </div>
                 </div>
               </div>
