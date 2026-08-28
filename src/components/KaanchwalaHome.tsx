@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
-import { getCachedGlobal } from '@/utilities/getGlobals'
 
 const fallbackServices = [
   ['Frameless Glass Partitions', 'Sleek, minimal design with maximum transparency', 'frameless-glass-partitions'],
@@ -28,7 +27,7 @@ const whatsapp = (value: string) => `https://wa.me/${value.replace(/\D/g, '')}`
 export default async function KaanchwalaHome() {
   const payload = await getPayload({ config: configPromise })
   const [settings, serviceData, portfolioData] = await Promise.all([
-    getCachedGlobal('site-settings', 1, 'en'),
+    payload.findGlobal({ slug: 'site-settings', depth: 1, locale: 'en' }),
     payload.find({ collection: 'services', limit: 6, depth: 0, sort: 'sortOrder', locale: 'en' }),
     payload.find({ collection: 'portfolio', limit: 6, depth: 0, sort: '-createdAt' }),
   ])
