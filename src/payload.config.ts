@@ -1,4 +1,4 @@
-import { vercelPostgresAdapter } from '@payloadcms/db-vercel-postgres'
+import { postgresAdapter } from '@payloadcms/db-postgres'
 import sharp from 'sharp'
 import path from 'path'
 import { buildConfig, PayloadRequest } from 'payload'
@@ -35,10 +35,13 @@ import { migrations } from './migrations'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
-// Vercel must contain only the connection-string value. If an accidental
-// `DATABASE_URL=` prefix was pasted into the secret, strip it safely here.
+// Use the standard Payload Postgres adapter so Supabase/Postgres connections
+// are handled directly by node-postgres rather than the Vercel-specific driver.
 const rawDatabaseUrl = process.env.DATABASE_URL || process.env.POSTGRES_URL || ''
-const databaseUrl = rawDatabaseUrl.replace(/^DATABASE_URL\s*=\s*/i, '').replace(/^POSTGRES_URL\s*=\s*/i, '').trim()
+const databaseUrl = rawDatabaseUrl
+  .replace(/^DATABASE_URL\s*=\s*/i, '')
+  .replace(/^POSTGRES_URL\s*=\s*/i, '')
+  .trim()
 
 export default buildConfig({
   i18n: { supportedLanguages: { en }, fallbackLanguage: 'en' },
@@ -66,7 +69,7 @@ export default buildConfig({
     },
   },
   editor: defaultLexical,
-  db: vercelPostgresAdapter({
+  db: postgresAdapter({
     pool: { connectionString: databaseUrl },
     prodMigrations: migrations,
   }),
