@@ -3,7 +3,10 @@
 import { Agentation } from 'agentation'
 
 export default function AgentationToolbar() {
-  if (process.env.NODE_ENV === 'production') return null
+  const enabled =
+    process.env.NODE_ENV !== 'production' || process.env.NEXT_PUBLIC_AGENTATION_ENABLED === 'true'
+
+  if (!enabled) return null
 
   return <Agentation />
 }
