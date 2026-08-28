@@ -78,6 +78,8 @@ export interface Config {
     awards: Award;
     services: Service;
     'case-studies': CaseStudy;
+    faqs: Faq;
+    leads: Lead;
     'legal-pages': LegalPage;
     demos: Demo;
     portfolio: Portfolio;
@@ -110,6 +112,8 @@ export interface Config {
     awards: AwardsSelect<false> | AwardsSelect<true>;
     services: ServicesSelect<false> | ServicesSelect<true>;
     'case-studies': CaseStudiesSelect<false> | CaseStudiesSelect<true>;
+    faqs: FaqsSelect<false> | FaqsSelect<true>;
+    leads: LeadsSelect<false> | LeadsSelect<true>;
     'legal-pages': LegalPagesSelect<false> | LegalPagesSelect<true>;
     demos: DemosSelect<false> | DemosSelect<true>;
     portfolio: PortfolioSelect<false> | PortfolioSelect<true>;
@@ -238,9 +242,12 @@ export interface Page {
   layout: (
     | CallToActionBlock
     | ContentBlock
+    | FaqBlock
     | MediaBlock
     | ArchiveBlock
     | FormBlock
+    | GlassOptionsBlock
+    | InstallationProcessBlock
     | TestimonialBlock
     | LogoBannerBlock
     | StatsBlock
@@ -464,6 +471,7 @@ export interface Category {
 export interface User {
   id: number;
   name?: string | null;
+  roles?: 'admin'[] | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -498,7 +506,7 @@ export interface Service {
    * Lucide icon name for UI (e.g. cards, lists)
    */
   icon?:
-    | ('brain' | 'code' | 'palette' | 'layout' | 'megaphone' | 'rocket' | 'shield' | 'zap' | 'globe' | 'smartphone')
+    | ('window' | 'glass' | 'folder' | 'shape' | 'loader2' | 'palette' | 'layout' | 'megaphone' | 'rocket' | 'shield')
     | null;
   coverImage?: (number | null) | Media;
   /**
@@ -814,6 +822,15 @@ export interface ContentBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FaqBlock".
+ */
+export interface FaqBlock {
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'faq';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "MediaBlock".
  */
 export interface MediaBlock {
@@ -894,6 +911,10 @@ export interface Portfolio {
   description?: string | null;
   client?: (number | null) | Customer;
   categories?: (number | Category)[] | null;
+  /**
+   * Related glass types for this project
+   */
+  glassOptions?: (number | Media)[] | null;
   /**
    * Show in homepage or featured sections
    */
@@ -1104,6 +1125,68 @@ export interface Form {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "GlassOptionsBlock".
+ */
+export interface GlassOptionsBlock {
+  /**
+   * Section heading (e.g. "Glass Options", "Available Glass Types")
+   */
+  title: string;
+  /**
+   * Glass type options
+   */
+  options: {
+    /**
+     * Glass type image
+     */
+    image: number | Media;
+    /**
+     * Glass type name (e.g. Clear Glass, Frosted Glass)
+     */
+    title: string;
+    /**
+     * Short description of the glass type
+     */
+    description?: string | null;
+    id?: string | null;
+  }[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'glassOptions';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "InstallationProcessBlock".
+ */
+export interface InstallationProcessBlock {
+  /**
+   * Installation process steps
+   */
+  steps: {
+    /**
+     * Step number
+     */
+    number: number;
+    /**
+     * Lucide icon name (e.g. home, search, user)
+     */
+    icon: string;
+    /**
+     * Step title
+     */
+    title: string;
+    /**
+     * Short description of this step
+     */
+    description: string;
+    id?: string | null;
+  }[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'installationProcess';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "TestimonialBlock".
  */
 export interface TestimonialBlock {
@@ -1279,6 +1362,97 @@ export interface Award {
    * Lower numbers appear first within the same year
    */
   sortOrder?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "faqs".
+ */
+export interface Faq {
+  id: number;
+  question: string;
+  answer: string;
+  /**
+   * e.g. Installation, Pricing, Warranty
+   */
+  category?: string | null;
+  /**
+   * Lower numbers appear first
+   */
+  sortOrder?: number | null;
+  /**
+   * Show on frontend
+   */
+  published?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * Leads/Enquiries from website contact form
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "leads".
+ */
+export interface Lead {
+  id: number;
+  /**
+   * Full name of the enquirer
+   */
+  name: string;
+  /**
+   * Email address of the enquirer
+   */
+  email: string;
+  /**
+   * Phone number of the enquirer
+   */
+  phone?: string | null;
+  /**
+   * Company or organization name
+   */
+  company?: string | null;
+  /**
+   * Service of interest
+   */
+  service:
+    | 'frameless-partitions'
+    | 'aluminium-partitions'
+    | 'half-partitions'
+    | 'sliding-partitions'
+    | 'double-glazed'
+    | 'curved-partitions'
+    | 'glass-doors'
+    | 'office-glass'
+    | 'shower-enclosures'
+    | 'glass-railings'
+    | 'mirrors'
+    | 'custom-solutions';
+  /**
+   * Project location or area
+   */
+  location?: string | null;
+  /**
+   * Enquiry message details
+   */
+  message: string;
+  /**
+   * Current status of the lead
+   */
+  status: 'New' | 'Contacted' | 'Qualified' | 'Quoted' | 'Converted' | 'Closed';
+  /**
+   * Source of the lead (e.g., website, referral)
+   */
+  source?: string | null;
+  /**
+   * When the lead was first contacted
+   */
+  contactedAt?: string | null;
+  /**
+   * When the lead was converted/sold
+   */
+  convertedAt?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1578,6 +1752,14 @@ export interface PayloadLockedDocument {
         value: number | CaseStudy;
       } | null)
     | ({
+        relationTo: 'faqs';
+        value: number | Faq;
+      } | null)
+    | ({
+        relationTo: 'leads';
+        value: number | Lead;
+      } | null)
+    | ({
         relationTo: 'legal-pages';
         value: number | LegalPage;
       } | null)
@@ -1688,9 +1870,12 @@ export interface PagesSelect<T extends boolean = true> {
     | {
         cta?: T | CallToActionBlockSelect<T>;
         content?: T | ContentBlockSelect<T>;
+        faq?: T | FaqBlockSelect<T>;
         mediaBlock?: T | MediaBlockSelect<T>;
         archive?: T | ArchiveBlockSelect<T>;
         formBlock?: T | FormBlockSelect<T>;
+        glassOptions?: T | GlassOptionsBlockSelect<T>;
+        installationProcess?: T | InstallationProcessBlockSelect<T>;
         testimonial?: T | TestimonialBlockSelect<T>;
         logoBanner?: T | LogoBannerBlockSelect<T>;
         stats?: T | StatsBlockSelect<T>;
@@ -1762,6 +1947,14 @@ export interface ContentBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FaqBlock_select".
+ */
+export interface FaqBlockSelect<T extends boolean = true> {
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "MediaBlock_select".
  */
 export interface MediaBlockSelect<T extends boolean = true> {
@@ -1791,6 +1984,40 @@ export interface FormBlockSelect<T extends boolean = true> {
   form?: T;
   enableIntro?: T;
   introContent?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "GlassOptionsBlock_select".
+ */
+export interface GlassOptionsBlockSelect<T extends boolean = true> {
+  title?: T;
+  options?:
+    | T
+    | {
+        image?: T;
+        title?: T;
+        description?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "InstallationProcessBlock_select".
+ */
+export interface InstallationProcessBlockSelect<T extends boolean = true> {
+  steps?:
+    | T
+    | {
+        number?: T;
+        icon?: T;
+        title?: T;
+        description?: T;
+        id?: T;
+      };
   id?: T;
   blockName?: T;
 }
@@ -2135,6 +2362,39 @@ export interface CaseStudiesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "faqs_select".
+ */
+export interface FaqsSelect<T extends boolean = true> {
+  question?: T;
+  answer?: T;
+  category?: T;
+  sortOrder?: T;
+  published?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "leads_select".
+ */
+export interface LeadsSelect<T extends boolean = true> {
+  name?: T;
+  email?: T;
+  phone?: T;
+  company?: T;
+  service?: T;
+  location?: T;
+  message?: T;
+  status?: T;
+  source?: T;
+  contactedAt?: T;
+  convertedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "legal-pages_select".
  */
 export interface LegalPagesSelect<T extends boolean = true> {
@@ -2178,6 +2438,7 @@ export interface PortfolioSelect<T extends boolean = true> {
   description?: T;
   client?: T;
   categories?: T;
+  glassOptions?: T;
   featured?: T;
   publishedAt?: T;
   updatedAt?: T;
@@ -2189,6 +2450,7 @@ export interface PortfolioSelect<T extends boolean = true> {
  */
 export interface UsersSelect<T extends boolean = true> {
   name?: T;
+  roles?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -2794,6 +3056,10 @@ export interface TaskSchedulePublish {
       | ({
           relationTo: 'case-studies';
           value: number | CaseStudy;
+        } | null)
+      | ({
+          relationTo: 'faqs';
+          value: number | Faq;
         } | null);
     global?: string | null;
     user?: (number | null) | User;

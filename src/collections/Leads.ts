@@ -6,14 +6,13 @@ export const Leads: CollectionConfig = {
   slug: 'leads',
   access: {
     create: authenticated,
-    delete: ({ req: { user } }) => user?.roles?.includes('admin'),
-    read: ({ req: { user } }) => user?.roles?.includes('admin'),
-    update: ({ req: { user } }) => user?.roles?.includes('admin'),
+    delete: ({ req: { user } }) => Boolean(user?.roles?.includes('admin')),
+    read: ({ req: { user } }) => Boolean(user?.roles?.includes('admin')),
+    update: ({ req: { user } }) => Boolean(user?.roles?.includes('admin')),
   },
   admin: {
     useAsTitle: 'id',
     defaultColumns: ['name', 'email', 'service', 'status', 'createdAt'],
-    placement: 'sidebar',
     description: 'Leads/Enquiries from website contact form',
   },
   fields: [
@@ -104,9 +103,9 @@ export const Leads: CollectionConfig = {
     {
       name: 'source',
       type: 'text',
+      defaultValue: 'Website',
       admin: {
         description: 'Source of the lead (e.g., website, referral)',
-        defaultValue: 'Website',
       },
     },
     {
