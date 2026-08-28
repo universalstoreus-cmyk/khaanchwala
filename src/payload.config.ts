@@ -36,10 +36,7 @@ const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
-  i18n: {
-    supportedLanguages: { en },
-    fallbackLanguage: 'en',
-  },
+  i18n: { supportedLanguages: { en }, fallbackLanguage: 'en' },
   localization: {
     locales: [
       { label: 'English', code: 'en' },
@@ -64,28 +61,13 @@ export default buildConfig({
     },
   },
   editor: defaultLexical,
-  // The Vercel Postgres adapter automatically reads POSTGRES_URL when no
-  // connection options are supplied. This also preserves DATABASE_URL as a
-  // supported override through the adapter's normal configuration.
-  db: vercelPostgresAdapter(),
+  // The Vercel Postgres adapter uses POSTGRES_URL by default. Keeping the
+  // adapter unconfigured here also avoids passing an empty connection pool.
+  db: vercelPostgresAdapter({ prodMigrations: migrations }),
   collections: [
-    Pages,
-    Posts,
-    Media,
-    Categories,
-    Customers,
-    Technologies,
-    TeamMembers,
-    Testimonials,
-    Awards,
-    Services,
-    CaseStudies,
-    Faqs,
-    Leads,
-    LegalPages,
-    Demos,
-    Portfolio,
-    Users,
+    Pages, Posts, Media, Categories, Customers, Technologies, TeamMembers,
+    Testimonials, Awards, Services, CaseStudies, Faqs, Leads, LegalPages,
+    Demos, Portfolio, Users,
   ],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer, SiteSettings],
@@ -93,9 +75,6 @@ export default buildConfig({
   secret: process.env.PAYLOAD_SECRET || '',
   sharp,
   typescript: { outputFile: path.resolve(dirname, 'payload-types.ts') },
-  // Run committed migrations at server initialization in production. This
-  // avoids making the Vercel build depend on a live database connection.
-  db: vercelPostgresAdapter({ prodMigrations: migrations }),
   jobs: {
     access: {
       run: ({ req }: { req: PayloadRequest }): boolean => {
