@@ -24,7 +24,7 @@ export const Logo = (props: Props) => {
         'block h-[64px] w-[64px] max-w-none object-contain object-center sm:h-[72px] sm:w-[72px]',
         className,
       )}
-      src="/kaanchwala-logo.webp?v=20260830"
+      src="/kaanchwala-logo.webp?v=20260831"
     />
   )
 }
