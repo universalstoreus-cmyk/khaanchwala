@@ -1,4 +1,4 @@
-const fallbackSiteUrl = 'https://khaanchwala.vercel.app'
+const fallbackSiteUrl = 'https://khaanchwala-khaachwala.vercel.app'
 const configuredSiteUrl = process.env.NEXT_PUBLIC_SERVER_URL || process.env.VERCEL_PROJECT_PRODUCTION_URL
 const SITE_URL = configuredSiteUrl && !configuredSiteUrl.includes('your-project.vercel.app') ? configuredSiteUrl : fallbackSiteUrl
 
