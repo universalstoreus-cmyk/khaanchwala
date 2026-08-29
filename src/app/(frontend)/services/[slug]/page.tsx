@@ -4,6 +4,8 @@ import { notFound } from 'next/navigation'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 
+export const dynamic = 'force-dynamic'
+
 const fallbackServices: Record<string, { title: string; description: string }> = {
   'toughened-glass': { title: 'Toughened Glass', description: 'Safety-focused toughened glass for doors, partitions and modern interiors.' },
   'shower-cubicles': { title: 'Shower Cubicles', description: 'Custom shower enclosures with clean hardware and practical layouts.' },
@@ -19,22 +21,6 @@ const fallbackServices: Record<string, { title: string; description: string }> =
   'glass-polishing': { title: 'Glass Polishing', description: 'Professional polishing for clean, smooth and refined glass edges.' },
   'pvd-work-aluminium-profiles': { title: 'PVD Work & Aluminium Profiles', description: 'Premium PVD finishes and aluminium profile solutions.' },
   'aristo-wardrobes': { title: 'Aristo Wardrobes', description: 'Premium wardrobe systems designed for modern interiors.' },
-}
-
-export async function generateStaticParams() {
-  const payload = await getPayload({ config: configPromise })
-  const result = await payload.find({
-    collection: 'services',
-    limit: 100,
-    depth: 0,
-    pagination: false,
-  })
-
-  const databaseSlugs = result.docs
-    .map((doc) => (typeof doc.slug === 'string' ? doc.slug : null))
-    .filter((slug): slug is string => Boolean(slug))
-
-  return Array.from(new Set([...Object.keys(fallbackServices), ...databaseSlugs])).map((slug) => ({ slug }))
 }
 
 export default async function ServiceDetailPage({ params }: { params: Promise<{ slug: string }> }) {
