@@ -1,6 +1,6 @@
 @import 'tailwindcss';
 
-:root { --blue: #063f9d; --navy: #062d70; --ink: #10234d; --muted: #64748b; --line: #e5eaf2; }
+:root { --blue: #0644a4; --navy: #062d70; --ink: #10234d; --muted: #64748b; --line: #e5eaf2; }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body { margin: 0; background: #fff; color: var(--ink); font-family: Arial, Helvetica, sans-serif; }
@@ -8,7 +8,19 @@ a { text-decoration: none; }
 .container { width: min(1180px, calc(100% - 32px)); margin: 0 auto; }
 .shadow-soft { box-shadow: 0 10px 30px rgba(10, 40, 90, .08); }
 
-header .container > a:first-child > span:first-child { width: 170px; height: 62px; display: block; background: url('/kaanchwala-logo.webp') center / contain no-repeat; background-color: transparent; font-size: 0; color: transparent; }
-header .container > a:first-child > span:nth-child(2) { display: none; }
+@media (max-width: 800px) { .container { width: min(100% - 20px, 1180px); } }
 
-@media (max-width: 800px) { .container { width: min(100% - 20px, 1180px); } header .container > a:first-child > span:first-child { width: 125px; height: 54px; } }
+.kw-page { overflow-x: hidden; background: #fff; }
+.kw-section { padding: 56px 0; }
+.kw-section-soft { background: #f7faff; }
+.kw-eyebrow { color: #0644a4; font-size: 13px; font-weight: 900; letter-spacing: .04em; text-transform: uppercase; }
+.kw-title { color: #10234d; font-weight: 900; letter-spacing: -.025em; }
+.kw-card { border: 1px solid #e3e9f2; background: #fff; border-radius: 12px; box-shadow: 0 8px 24px rgba(16,35,77,.07); }
+.kw-card img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.kw-image { overflow: hidden; border-radius: 10px; }
+.kw-image img { transition: transform .35s ease; }
+.kw-card:hover .kw-image img { transform: scale(1.03); }
+.kw-scrollbar::-webkit-scrollbar { height: 6px; }
+.kw-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 999px; }
+
+@media (max-width: 767px) { .kw-section { padding: 38px 0; } }
