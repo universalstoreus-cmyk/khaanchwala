@@ -1,7 +1,7 @@
 const SITE_URL =
   process.env.NEXT_PUBLIC_SERVER_URL ||
   process.env.VERCEL_PROJECT_PRODUCTION_URL ||
-  'https://khaanchwala-bk51042oq-khaachwala.vercel.app'
+  'https://khaanchwala-khaachwala.vercel.app'
 
 const routes = [
   '/', '/about-us', '/services', '/industries', '/portfolio', '/process', '/testimonials', '/blog', '/faq', '/contact', '/privacy-policy', '/terms-conditions',
@@ -16,8 +16,8 @@ const routes = [
 module.exports = {
   siteUrl: SITE_URL,
   generateRobotsTxt: true,
-  exclude: ['/admin/*', '/api/*', '/_next/*'],
-  additionalPaths: async (config) => routes.map((path) => ({ loc: path, changefreq: 'weekly', priority: path === '/' ? 1 : 0.8 })),
+  exclude: ['/admin/*', '/api/*', '/_next/*', '/search'],
+  additionalPaths: async () => routes.map((path) => ({ loc: path, changefreq: 'weekly', priority: path === '/' ? 1 : 0.8 })),
   robotsTxtOptions: {
     policies: [{ userAgent: '*', allow: '/', disallow: ['/admin', '/api'] }],
   },

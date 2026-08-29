@@ -35,13 +35,17 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
 
   return (
     <header className="relative z-20" {...(theme ? { 'data-theme': theme } : {})}>
-      <div className="container flex min-h-[108px] items-center justify-between gap-4 py-2 sm:min-h-[126px] sm:py-3">
-        <Link href={prefixWithLocale('/', locale)} className="flex h-[100px] w-[100px] shrink-0 items-center justify-center sm:h-[116px] sm:w-[116px]">
+      <div className="container flex min-h-[72px] items-center justify-between gap-3 py-2 sm:min-h-[80px] sm:py-2.5">
+        <Link
+          href={prefixWithLocale('/', locale)}
+          aria-label="Kaanchwala home"
+          className="flex h-[64px] w-[64px] shrink-0 items-center justify-center overflow-visible sm:h-[72px] sm:w-[72px]"
+        >
           <Logo loading="eager" priority="high" />
         </Link>
-        <div className="flex items-center gap-3 sm:gap-6">
+        <div className="flex min-w-0 items-center gap-2 sm:gap-4">
           <HeaderNav data={data} locale={locale} />
-          <LocaleSwitcher currentLocale={locale} className="ml-1 sm:ml-2" />
+          <LocaleSwitcher currentLocale={locale} className="ml-0 sm:ml-1" />
         </div>
       </div>
     </header>

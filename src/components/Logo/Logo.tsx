@@ -10,19 +10,19 @@ interface Props {
 export const Logo = (props: Props) => {
   const { loading: loadingFromProps, priority: priorityFromProps, className } = props
 
-  const loading = loadingFromProps || 'lazy'
-  const priority = priorityFromProps || 'low'
-
   return (
     /* eslint-disable @next/next/no-img-element */
     <img
       alt="Kaanchwala Glass & Mirror Solutions"
-      width={52}
-      height={52}
-      loading={loading}
-      fetchPriority={priority}
+      width={72}
+      height={72}
+      loading={loadingFromProps || 'lazy'}
+      fetchPriority={priorityFromProps || 'low'}
       decoding="async"
-      className={clsx('block h-[48px] w-[48px] max-w-none object-contain object-center sm:h-[56px] sm:w-[56px]', className)}
+      className={clsx(
+        'block h-auto w-[56px] max-w-[56px] object-contain object-center sm:w-[64px] sm:max-w-[64px]',
+        className,
+      )}
       src="/kaanchwala-logo.webp"
     />
   )
