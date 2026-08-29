@@ -2,13 +2,12 @@ import React from 'react'
 import Link from 'next/link'
 
 import { Card } from '@/components/Card'
-import { CMSLink } from '@/components/Link'
 
 type ServiceCardProps = {
   title: string
   description: string
   icon: string
-  image?: any
+  image?: unknown
   slug: string
   feature?: boolean
 }
@@ -26,13 +25,11 @@ export const ServiceGrid: React.FC<{
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {services.map((service) => {
+              const href = `/services/${service.slug}`
+
               return (
-                <Link
-                  key={service.id}
-                  href={`/services/${service.slug}`}
-                  className="group rounded-2xl overflow-hidden hover:bg-white dark:hover:bg-gray-800 transition-colors"
-                >
-                  <Card className="relative h-full flex flex-col">
+                <Card key={service.id} className="relative h-full flex flex-col overflow-hidden">
+                  <Link href={href} className="group block">
                     {service.coverImage && (
                       <img
                         src={service.coverImage.url}
@@ -41,11 +38,14 @@ export const ServiceGrid: React.FC<{
                       />
                     )}
 
-                    <div className="p-6 flex-1 flex flex-col">
+                    <div className="p-6">
                       <div className="flex items-center mb-3">
                         <svg
                           className="w-6 h-6 text-blue-600 dark:text-blue-400 group-hover:text-blue-500"
                           viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
                         >
                           <path d="M12 2L2 7l10 5 10-5-10-5z" />
                           <path d="M2 17l10 5 10-5" />
@@ -57,21 +57,21 @@ export const ServiceGrid: React.FC<{
                         {service.title}
                       </h3>
 
-                      <p className="text-gray-600 dark:text-gray-300 flex-1 line-clamp-2">
+                      <p className="text-gray-600 dark:text-gray-300 line-clamp-2">
                         {service.summary}
                       </p>
                     </div>
+                  </Link>
 
-                    <div className="p-6 border-t border-gray-100 dark:border-gray-800">
-                      <CMSLink
-                        href={`/services/${service.slug}`}
-                        className="text-blue-600 dark:text-blue-400 text-sm font-medium hover:underline group-hover:underline"
-                      >
-                        Learn More
-                      </CMSLink>
-                    </div>
-                  </Card>
-                </Link>
+                  <div className="mt-auto p-6 border-t border-gray-100 dark:border-gray-800">
+                    <Link
+                      href={href}
+                      className="text-blue-600 dark:text-blue-400 text-sm font-medium hover:underline"
+                    >
+                      Learn More →
+                    </Link>
+                  </div>
+                </Card>
               )
             })}
           </div>
