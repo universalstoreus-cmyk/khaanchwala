@@ -60,12 +60,27 @@ export default async function KaanchwalaHome() {
     </div>
 
     <header className="sticky top-0 z-20 border-b border-slate-200 bg-white/95 backdrop-blur">
-      <div className="container flex min-h-14 items-center justify-between gap-4 py-1">
-        <Link href="/" aria-label={siteName} className="flex h-14 w-14 shrink-0 items-center justify-center sm:h-16 sm:w-16">
-          <Logo loading="eager" priority="high" className="h-14 w-14 sm:h-16 sm:w-16" />
+      <div className="container flex min-h-14 items-center justify-between gap-3 py-1">
+        <Link href="/" aria-label={siteName} className="flex h-12 w-12 shrink-0 items-center justify-center sm:h-14 sm:w-14">
+          <Logo loading="eager" priority="high" className="h-12 w-12 sm:h-14 sm:w-14" />
         </Link>
         <nav className="hidden items-center gap-7 text-sm font-semibold md:flex"><Link href="/">Home</Link><Link href="/about-us">About Us</Link><Link href="/services">Services</Link><Link href="/portfolio">Portfolio</Link><Link href="/blog">Blog</Link><Link href="/faq">FAQ</Link><Link href="/contact">Contact Us</Link></nav>
         <div className="hidden items-center gap-4 lg:flex"><div className="text-right text-sm"><b className="block">☎ Call Us Now</b><a href={tel(phone)}>{phone}</a></div><Link href="/contact" className="rounded-md bg-[#0644a4] px-5 py-3 text-sm font-bold text-white shadow">GET A FREE QUOTE</Link></div>
+        <details className="relative ml-auto md:hidden">
+          <summary aria-label="Open menu" className="flex h-10 w-10 cursor-pointer list-none items-center justify-center rounded-md border border-slate-200 bg-white text-xl font-bold text-[#10234d] shadow-sm marker:hidden [&::-webkit-details-marker]:hidden">☰</summary>
+          <div className="absolute right-0 top-full z-50 mt-2 w-64 overflow-hidden rounded-xl border border-slate-200 bg-white p-2 shadow-xl">
+            <nav className="grid text-sm font-semibold text-[#10234d]">
+              <Link className="rounded-lg px-4 py-3 hover:bg-slate-50" href="/">Home</Link>
+              <Link className="rounded-lg px-4 py-3 hover:bg-slate-50" href="/about-us">About Us</Link>
+              <Link className="rounded-lg px-4 py-3 hover:bg-slate-50" href="/services">Services</Link>
+              <Link className="rounded-lg px-4 py-3 hover:bg-slate-50" href="/portfolio">Portfolio</Link>
+              <Link className="rounded-lg px-4 py-3 hover:bg-slate-50" href="/blog">Blog</Link>
+              <Link className="rounded-lg px-4 py-3 hover:bg-slate-50" href="/faq">FAQ</Link>
+              <Link className="rounded-lg px-4 py-3 hover:bg-slate-50" href="/contact">Contact Us</Link>
+              <Link className="mt-1 rounded-lg bg-[#0644a4] px-4 py-3 text-center text-white" href="/contact">GET A FREE QUOTE</Link>
+            </nav>
+          </div>
+        </details>
       </div>
     </header>
     <section className="relative overflow-hidden bg-slate-50"><div className="absolute inset-0 bg-cover bg-center opacity-30 md:opacity-100" style={{ backgroundImage: `url(${image('photo-1497366754035-f200968a6e72')})` }} /><div className="relative min-h-[480px] bg-gradient-to-r from-white via-white/95 to-white/20"><div className="container flex min-h-[480px] items-center"><div className="max-w-xl py-12"><div className="mb-5 inline-flex rounded-md bg-[#0644a4] px-4 py-2 text-xs font-bold text-white">OFFICE GLASS PARTITIONS</div><h1 className="text-4xl font-black leading-tight text-[#10234d] md:text-6xl">Modern Glass Partitions <span className="text-[#0750b8]">for Productive Workspaces</span></h1><p className="mt-5 text-base leading-7 text-slate-600">{siteDescription}</p><div className="mt-7 flex flex-wrap gap-3"><Link href="/contact" className="rounded-md bg-[#0644a4] px-6 py-3 font-bold text-white">GET FREE QUOTE</Link><a href={whatsapp(phone)} target="_blank" rel="noopener noreferrer" className="rounded-md border border-slate-300 bg-white px-6 py-3 font-bold text-slate-700">◉ WHATSAPP US</a></div></div></div></div></section>
