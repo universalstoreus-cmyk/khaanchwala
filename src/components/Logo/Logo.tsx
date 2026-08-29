@@ -14,13 +14,13 @@ export const Logo = (props: Props) => {
     /* eslint-disable @next/next/no-img-element */
     <img
       alt="Kaanchwala Glass & Mirror Solutions"
-      width={64}
-      height={64}
+      width={96}
+      height={96}
       loading={loadingFromProps || 'lazy'}
       fetchPriority={priorityFromProps || 'low'}
       decoding="async"
       className={clsx(
-        'block h-[48px] w-[48px] max-w-[48px] object-contain object-center sm:h-[56px] sm:w-[56px] sm:max-w-[56px]',
+        'block h-[44px] w-[44px] max-w-[44px] object-contain object-center sm:h-[52px] sm:w-[52px] sm:max-w-[52px]',
         className,
       )}
       src="/kaanchwala-logo.webp"
