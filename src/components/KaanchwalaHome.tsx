@@ -6,9 +6,9 @@ import { Logo } from '@/components/Logo/Logo'
 const fallbackServices = [
   ['Frameless Glass Partitions', 'Sleek, minimal design with maximum transparency', 'frameless-glass-partitions'],
   ['Aluminium Framed Partitions', 'Durable frames with a modern clean finish', 'aluminium-framed-partitions'],
-  ['Half Glass Partitions', 'Privacy-focused glass with a professional style', 'half-glass-partitions'],
+  ['Half Glass Partitions', 'Privacy-focused partition systems for offices and homes', 'half-glass-partitions'],
   ['Sliding Glass Partitions', 'Flexible sliding solutions for changing spaces', 'sliding-glass-partitions'],
-  ['Double Glazed Partitions', 'Extra sound insulation for private discussions', 'double-glazed-partitions'],
+  ['Double Glazed Partitions', 'Extra acoustic separation for private discussions', 'double-glazed-partitions'],
   ['Curved Glass Partitions', 'Custom curved glass for distinctive interiors', 'curved-glass-partitions'],
 ] as const
 
@@ -33,10 +33,10 @@ export default async function KaanchwalaHome() {
     payload.find({ collection: 'portfolio', limit: 6, depth: 0, sort: '-createdAt' }),
   ])
 
-  const phone = settings.contactPhone || '+91 9891980070'
+  const phone = settings.contactPhone || '+91-9891980070'
   const email = settings.contactEmail || 'info@kaanchwala.com'
   const address = settings.address || 'Beside Royal Bawarchi Restaurant, New Hafeezpet, Marthanda Nagar, Hafeezpet, Hyderabad, Telangana 500049'
-  const siteName = settings.siteName || 'KAANCHWALA'
+  const siteName = settings.siteName || 'Kaanch Wala'
   const siteDescription = settings.siteDescription || 'Premium glass and mirror solutions with expert design, manufacturing and installation.'
   const services = serviceData.docs.length ? serviceData.docs.map((item) => ({ title: item.title, summary: item.summary, slug: item.slug })) : fallbackServices.map(([title, summary, slug]) => ({ title, summary, slug }))
   const projects = portfolioData.docs.length ? portfolioData.docs.map((item) => ({ title: item.title, place: item.description || 'Hyderabad' })) : fallbackProjects.map(([title, place]) => ({ title, place }))
@@ -73,8 +73,11 @@ export default async function KaanchwalaHome() {
               <Link className="rounded-lg px-4 py-3 hover:bg-slate-50" href="/">Home</Link>
               <Link className="rounded-lg px-4 py-3 hover:bg-slate-50" href="/about-us">About Us</Link>
               <Link className="rounded-lg px-4 py-3 hover:bg-slate-50" href="/services">Services</Link>
+              <Link className="rounded-lg px-4 py-3 hover:bg-slate-50" href="/industries">Industries We Serve</Link>
               <Link className="rounded-lg px-4 py-3 hover:bg-slate-50" href="/portfolio">Portfolio</Link>
+              <Link className="rounded-lg px-4 py-3 hover:bg-slate-50" href="/process">Process</Link>
               <Link className="rounded-lg px-4 py-3 hover:bg-slate-50" href="/blog">Blog</Link>
+              <Link className="rounded-lg px-4 py-3 hover:bg-slate-50" href="/testimonials">Testimonials</Link>
               <Link className="rounded-lg px-4 py-3 hover:bg-slate-50" href="/faq">FAQ</Link>
               <Link className="rounded-lg px-4 py-3 hover:bg-slate-50" href="/contact">Contact Us</Link>
               <Link className="mt-1 rounded-lg bg-[#0644a4] px-4 py-3 text-center text-white" href="/contact">GET A FREE QUOTE</Link>
@@ -88,6 +91,6 @@ export default async function KaanchwalaHome() {
     <section className="container py-16"><h2 className="mb-6 text-sm font-black uppercase tracking-wide text-[#0644a4]">Types of Office Glass Partitions</h2><div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{services.map((service, i) => <Link href={`/services/${service.slug}`} key={service.slug || service.title} className="group overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-md"><img src={image(['photo-1497366811353-6870744d04b2','photo-1497366216548-37526070297c','photo-1497366754035-f200968a6e72'][i % 3])} alt={service.title} className="h-36 w-full object-cover"/><div className="p-4"><h3 className="font-extrabold group-hover:text-[#0644a4]">{service.title}</h3><p className="mt-2 text-xs leading-5 text-slate-500">{service.summary}</p><span className="mt-3 block text-xs font-bold text-[#0644a4]">VIEW SERVICE →</span></div></Link>)}</div><Link href="/services" className="mt-6 inline-block rounded-md border border-[#0750b8] px-6 py-3 text-sm font-bold text-[#0750b8]">VIEW ALL SERVICES →</Link></section>
     <section className="container rounded-xl border border-slate-200 bg-white p-5 shadow-sm md:p-8"><div className="mb-6 flex items-center justify-between"><h2 className="text-sm font-black uppercase tracking-wide text-[#0644a4]">Featured Projects</h2><Link href="/portfolio" className="text-xs font-bold text-[#0644a4]">VIEW ALL →</Link></div><div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-6">{projects.map((project, i) => <Link href="/portfolio" key={`${project.title}-${i}`} className="group overflow-hidden rounded-lg border"><img src={image(['photo-1497366754035-f200968a6e72','photo-1497366216548-37526070297c'][i % 2])} alt={project.title} className="h-28 w-full object-cover"/><div className="p-3"><b className="text-sm group-hover:text-[#0644a4]">{project.title}</b><p className="mt-1 line-clamp-2 text-xs text-slate-500">{project.place}</p></div></Link>)}</div></section>
     <section className="container py-16"><div className="rounded-xl bg-[#0644a4] p-7 text-white md:p-10"><div className="grid items-center gap-7 md:grid-cols-[1fr_auto]"><div><h2 className="text-3xl font-black">Ready to Transform Your Space?</h2><p className="mt-2 text-white/80">Get a FREE site visit & quote today.</p></div><div className="flex flex-wrap gap-3"><a href={tel(phone)} className="rounded-md bg-white px-5 py-3 font-bold text-[#0644a4]">CALL NOW</a><a href={whatsapp(phone)} target="_blank" rel="noopener noreferrer" className="rounded-md border border-white/50 px-5 py-3 font-bold">WHATSAPP US</a></div></div></div></section>
-    <footer className="bg-[#071f4e] py-10 text-white"><div className="container grid gap-8 md:grid-cols-4"><div><b className="text-xl">Kaanch Wala</b><p className="mt-3 text-sm leading-6 text-white/70">{siteDescription}</p></div><div><b>Quick Links</b><div className="mt-3 space-y-2 text-sm text-white/70"><Link className="block" href="/">Home</Link><Link className="block" href="/about-us">About Us</Link><Link className="block" href="/services">Services</Link><Link className="block" href="/portfolio">Portfolio</Link><Link className="block" href="/blog">Blog</Link><Link className="block" href="/faq">FAQ</Link><Link className="block" href="/contact">Contact Us</Link></div></div><div><b>Support</b><div className="mt-3 space-y-2 text-sm text-white/70"><Link className="block" href="/faq">FAQ</Link><Link className="block" href="/contact">Legal & Policies</Link></div></div><div><b>Contact</b><p className="mt-3 whitespace-pre-line text-sm leading-6 text-white/70">{address}<br/><a href={tel(phone)}>{phone}</a><br/><a href={`mailto:${email}`}>{email}</a></p></div></div><div className="container mt-8 border-t border-white/10 pt-5 text-xs text-white/50">© 2026 Kaanch Wala. All Rights Reserved.</div></footer>
+    <footer className="bg-[#071f4e] py-10 text-white"><div className="container grid gap-8 md:grid-cols-4"><div><b className="text-xl">Kaanch Wala</b><p className="mt-3 text-sm leading-6 text-white/70">{siteDescription}</p></div><div><b>Quick Links</b><div className="mt-3 space-y-2 text-sm text-white/70"><Link className="block" href="/">Home</Link><Link className="block" href="/about-us">About Us</Link><Link className="block" href="/services">Services</Link><Link className="block" href="/industries">Industries We Serve</Link><Link className="block" href="/portfolio">Portfolio</Link><Link className="block" href="/blog">Blog</Link><Link className="block" href="/faq">FAQ</Link><Link className="block" href="/contact">Contact Us</Link></div></div><div><b>Support</b><div className="mt-3 space-y-2 text-sm text-white/70"><Link className="block" href="/process">Process</Link><Link className="block" href="/testimonials">Testimonials</Link><Link className="block" href="/privacy-policy">Privacy Policy</Link><Link className="block" href="/terms-conditions">Terms & Conditions</Link></div></div><div><b>Contact</b><p className="mt-3 whitespace-pre-line text-sm leading-6 text-white/70">{address}<br/><a href={tel(phone)}>{phone}</a><br/><a href={`mailto:${email}`}>{email}</a></p></div></div><div className="container mt-8 border-t border-white/10 pt-5 text-xs text-white/50">© 2026 Kaanch Wala. All Rights Reserved. <span className="mx-1">|</span> Developed by <a href="https://robustwebsolution.com/" target="_blank" rel="noopener noreferrer" className="font-medium text-white hover:underline">Robust Web Solution</a></div></footer>
   </main>
 }

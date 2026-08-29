@@ -21,30 +21,41 @@ const fallbackServices: Record<string, { title: string; description: string }> =
   'glass-polishing': { title: 'Glass Polishing', description: 'Professional polishing for clean, smooth and refined glass edges.' },
   'pvd-work-aluminium-profiles': { title: 'PVD Work & Aluminium Profiles', description: 'Premium PVD finishes and aluminium profile solutions.' },
   'aristo-wardrobes': { title: 'Aristo Wardrobes', description: 'Premium wardrobe systems designed for modern interiors.' },
+  'frameless-glass-partitions': { title: 'Frameless Glass Partitions', description: 'Sleek, minimal glass partition systems with maximum transparency.' },
+  'aluminium-framed-partitions': { title: 'Aluminium Framed Partitions', description: 'Durable framed partition systems with a clean modern finish.' },
+  'half-glass-partitions': { title: 'Half Glass Partitions', description: 'Glass-and-solid-panel partitions designed for privacy and style.' },
+  'sliding-glass-partitions': { title: 'Sliding Glass Partitions', description: 'Flexible sliding glass solutions for changing spaces.' },
+  'double-glazed-partitions': { title: 'Double Glazed Partitions', description: 'Double-glazed systems for improved acoustic separation and privacy.' },
+  'curved-glass-partitions': { title: 'Curved Glass Partitions', description: 'Custom curved glass designs for distinctive interiors.' },
 }
 
 export default async function ServiceDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
-  const payload = await getPayload({ config: configPromise })
-  const result = await payload.find({
-    collection: 'services',
-    limit: 1,
-    depth: 1,
-    where: { slug: { equals: slug } },
-  })
-
-  const databaseService = result.docs[0]
   const fallbackService = fallbackServices[slug]
+  let databaseService: { title?: string; summary?: string } | undefined
+
+  try {
+    const payload = await getPayload({ config: configPromise })
+    const result = await payload.find({
+      collection: 'services',
+      limit: 1,
+      depth: 1,
+      where: { slug: { equals: slug } },
+    })
+    databaseService = result.docs[0] as typeof databaseService
+  } catch {
+    // Keep the public service page available even if the CMS is temporarily unavailable.
+  }
 
   if (!databaseService && !fallbackService) notFound()
 
   const title = databaseService?.title || fallbackService?.title || slug
-  const description = databaseService?.summary || fallbackService?.description || 'Professional glass and mirror solutions from Kaanchwala.'
+  const description = databaseService?.summary || fallbackService?.description || 'Professional glass and mirror solutions from Kaanch Wala.'
 
   return (
     <main className="container py-16">
       <Link href="/services" className="text-sm font-bold text-[#0644a4]">← All Services</Link>
-      <p className="mt-6 text-sm font-black uppercase tracking-wide text-[#0644a4]">Kaanchwala Services</p>
+      <p className="mt-6 text-sm font-black uppercase tracking-wide text-[#0644a4]">Kaanch Wala Services</p>
       <h1 className="mt-2 text-4xl font-black text-[#10234d] md:text-5xl">{title}</h1>
       <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-600">{description}</p>
       <div className="mt-10 rounded-xl border bg-white p-6 shadow-sm">
