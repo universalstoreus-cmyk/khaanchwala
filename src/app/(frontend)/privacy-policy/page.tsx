@@ -1,0 +1,2 @@
+import Link from 'next/link'
+export default function PrivacyPolicyPage(){return <main className="container py-16"><Link href="/legal" className="text-sm font-bold text-[#0644a4]">← Legal</Link><h1 className="mt-6 text-4xl font-black">Privacy Policy</h1><p className="mt-4 max-w-3xl leading-7 text-slate-600">Kaanchwala uses information submitted through this website only to respond to enquiries, quotations, site visits and customer support requests. We do not sell personal information. Final policy wording can be updated by the business before launch.</p></main>}

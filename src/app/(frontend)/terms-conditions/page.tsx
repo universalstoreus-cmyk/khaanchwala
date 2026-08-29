@@ -1,0 +1,2 @@
+import Link from 'next/link'
+export default function TermsPage(){return <main className="container py-16"><Link href="/legal" className="text-sm font-bold text-[#0644a4]">← Legal</Link><h1 className="mt-6 text-4xl font-black">Terms & Conditions</h1><p className="mt-4 max-w-3xl leading-7 text-slate-600">Website information is provided for general guidance. Final specifications, pricing, measurements, materials, timelines and warranties are confirmed in the quotation or order documentation. Final business terms can be updated by Kaanchwala before launch.</p></main>}
