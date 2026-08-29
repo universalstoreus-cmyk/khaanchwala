@@ -35,11 +35,11 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
 
   return (
     <header className="relative z-20" {...(theme ? { 'data-theme': theme } : {})}>
-      <div className="container flex min-h-[72px] items-center justify-between gap-3 py-2 sm:min-h-[80px] sm:py-2.5">
+      <div className="container flex min-h-[60px] items-center justify-between gap-3 py-1.5 sm:min-h-[68px] sm:py-2">
         <Link
           href={prefixWithLocale('/', locale)}
           aria-label="Kaanchwala home"
-          className="flex h-[64px] w-[64px] shrink-0 items-center justify-center overflow-visible sm:h-[72px] sm:w-[72px]"
+          className="flex h-[52px] w-[52px] shrink-0 items-center justify-center sm:h-[60px] sm:w-[60px]"
         >
           <Logo loading="eager" priority="high" />
         </Link>
