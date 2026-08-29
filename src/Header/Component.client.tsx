@@ -34,9 +34,9 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   }, [headerTheme])
 
   return (
-    <header className="container relative z-20" {...(theme ? { 'data-theme': theme } : {})}>
-      <div className="py-3 sm:py-5 flex items-center justify-between gap-4">
-        <Link href={prefixWithLocale('/', locale)} className="shrink-0">
+    <header className="relative z-20" {...(theme ? { 'data-theme': theme } : {})}>
+      <div className="container flex min-h-[108px] items-center justify-between gap-4 py-2 sm:min-h-[126px] sm:py-3">
+        <Link href={prefixWithLocale('/', locale)} className="flex h-[100px] w-[100px] shrink-0 items-center justify-center sm:h-[116px] sm:w-[116px]">
           <Logo loading="eager" priority="high" />
         </Link>
         <div className="flex items-center gap-3 sm:gap-6">
