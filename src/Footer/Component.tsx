@@ -78,6 +78,7 @@ export async function Footer({ locale = 'en' }: { locale?: Locale }) {
           >
             Robust Web Solution
           </a>
+          <span className="mx-1">|</span> Developer: Mohd Tariq Malik
         </p>
       </div>
     </footer>
