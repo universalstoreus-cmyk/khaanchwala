@@ -18,6 +18,7 @@ import * as migration_20260829_110021_initial from './20260829_110021_initial';
 import * as migration_20260829_161217_initial from './20260829_161217_initial';
 import * as migration_20260829_180906_initial from './20260829_180906_initial';
 import * as migration_20260829_185436_initial from './20260829_185436_initial';
+import * as migration_20260829_185817_initial from './20260829_185817_initial';
 
 export const migrations = [
   {
@@ -118,6 +119,11 @@ export const migrations = [
   {
     up: migration_20260829_185436_initial.up,
     down: migration_20260829_185436_initial.down,
-    name: '20260829_185436_initial'
+    name: '20260829_185436_initial',
+  },
+  {
+    up: migration_20260829_185817_initial.up,
+    down: migration_20260829_185817_initial.down,
+    name: '20260829_185817_initial'
   },
 ];
