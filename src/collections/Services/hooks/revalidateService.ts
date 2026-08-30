@@ -4,6 +4,22 @@ import { revalidatePath, revalidateTag } from 'next/cache'
 
 import type { Service } from '@/payload-types'
 
+const safeRevalidatePath = (path: string, logger?: { warn: (message: string) => void }) => {
+  try {
+    revalidatePath(path)
+  } catch (error) {
+    logger?.warn(`Service path revalidation skipped for ${path}: ${error instanceof Error ? error.message : String(error)}`)
+  }
+}
+
+const safeRevalidateTag = (tag: string, logger?: { warn: (message: string) => void }) => {
+  try {
+    revalidateTag(tag, 'max')
+  } catch (error) {
+    logger?.warn(`Service tag revalidation skipped for ${tag}: ${error instanceof Error ? error.message : String(error)}`)
+  }
+}
+
 export const revalidateService: CollectionAfterChangeHook<Service> = ({
   doc,
   previousDoc,
@@ -12,32 +28,35 @@ export const revalidateService: CollectionAfterChangeHook<Service> = ({
   if (!context.disableRevalidate) {
     if (doc._status === 'published') {
       const path = `/services/${doc.slug}`
+      const logger = payload.logger
 
-      payload.logger.info(`Revalidating service at path: ${path}`)
+      logger.info(`Revalidating service at path: ${path}`)
 
-      revalidatePath(path)
-      revalidateTag('services-sitemap', 'max')
-      revalidateTag('services-list', 'max')
-      revalidateTag(`services_${doc.slug}`, 'max')
-      revalidateTag(`services_id_${doc.id}`, 'max')
+      safeRevalidatePath(path, logger)
+      safeRevalidateTag('services-sitemap', logger)
+      safeRevalidateTag('services-list', logger)
+      safeRevalidateTag(`services_${doc.slug}`, logger)
+      safeRevalidateTag(`services_id_${doc.id}`, logger)
     }
 
     if (previousDoc?._status === 'published' && doc._status !== 'published') {
       const oldPath = `/services/${previousDoc.slug}`
+      const logger = payload.logger
 
-      payload.logger.info(`Revalidating old service at path: ${oldPath}`)
+      logger.info(`Revalidating old service at path: ${oldPath}`)
 
-      revalidatePath(oldPath)
-      revalidateTag('services-sitemap', 'max')
-      revalidateTag('services-list', 'max')
-      revalidateTag(`services_${previousDoc.slug}`, 'max')
-      revalidateTag(`services_id_${previousDoc.id}`, 'max')
+      safeRevalidatePath(oldPath, logger)
+      safeRevalidateTag('services-sitemap', logger)
+      safeRevalidateTag('services-list', logger)
+      safeRevalidateTag(`services_${previousDoc.slug}`, logger)
+      safeRevalidateTag(`services_id_${previousDoc.id}`, logger)
     }
 
     if (previousDoc?.slug && previousDoc.slug !== doc.slug) {
-      revalidateTag(`services_${previousDoc.slug}`, 'max')
+      safeRevalidateTag(`services_${previousDoc.slug}`, payload.logger)
     }
   }
+
   return doc
 }
 
@@ -45,14 +64,13 @@ export const revalidateDelete: CollectionAfterDeleteHook<Service> = ({
   doc,
   req: { context },
 }) => {
-  if (!context.disableRevalidate) {
-    const path = `/services/${doc?.slug}`
-
-    revalidatePath(path)
-    revalidateTag('services-sitemap', 'max')
-    revalidateTag('services-list', 'max')
-    if (doc?.slug) revalidateTag(`services_${doc.slug}`, 'max')
-    if (doc?.id) revalidateTag(`services_id_${doc.id}`, 'max')
+  if (!context.disableRevalidate && doc?.slug) {
+    const path = `/services/${doc.slug}`
+    safeRevalidatePath(path)
+    safeRevalidateTag('services-sitemap')
+    safeRevalidateTag('services-list')
+    safeRevalidateTag(`services_${doc.slug}`)
+    if (doc.id) safeRevalidateTag(`services_id_${doc.id}`)
   }
 
   return doc
