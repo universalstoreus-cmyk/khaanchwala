@@ -31,6 +31,7 @@ import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
 import { migrations } from './migrations'
+import * as seedKaanchwalaServiceContent from './migrations/20260831_001000_seed_kaanchwala_service_content'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -64,6 +65,15 @@ const databaseUrl = (() => {
   }
 })()
 
+const prodMigrations = [
+  ...migrations,
+  {
+    up: seedKaanchwalaServiceContent.up,
+    down: seedKaanchwalaServiceContent.down,
+    name: '20260831_001000_seed_kaanchwala_service_content',
+  },
+]
+
 export default buildConfig({
   i18n: { supportedLanguages: { en }, fallbackLanguage: 'en' },
   localization: {
@@ -92,7 +102,7 @@ export default buildConfig({
   editor: defaultLexical,
   db: postgresAdapter({
     pool: { connectionString: databaseUrl },
-    prodMigrations: migrations,
+    prodMigrations,
   }),
   collections: [
     Pages, Posts, Media, Categories, Customers, Technologies, TeamMembers,
