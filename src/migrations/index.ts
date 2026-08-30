@@ -47,6 +47,8 @@ import * as migration_20260830_180911_initial from './20260830_180911_initial';
 import * as migration_20260830_181517_initial from './20260830_181517_initial';
 import * as migration_20260830_182110_initial from './20260830_182110_initial';
 import * as migration_20260830_183030_initial from './20260830_183030_initial';
+import * as migration_20260830_184731_initial from './20260830_184731_initial';
+import * as migration_20260831_001000_seed_kaanchwala_service_content from './20260831_001000_seed_kaanchwala_service_content';
 
 export const migrations = [
   {
@@ -292,6 +294,16 @@ export const migrations = [
   {
     up: migration_20260830_183030_initial.up,
     down: migration_20260830_183030_initial.down,
-    name: '20260830_183030_initial'
+    name: '20260830_183030_initial',
+  },
+  {
+    up: migration_20260830_184731_initial.up,
+    down: migration_20260830_184731_initial.down,
+    name: '20260830_184731_initial',
+  },
+  {
+    up: migration_20260831_001000_seed_kaanchwala_service_content.up,
+    down: migration_20260831_001000_seed_kaanchwala_service_content.down,
+    name: '20260831_001000_seed_kaanchwala_service_content'
   },
 ];
