@@ -27,7 +27,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
     <header className="relative z-50 bg-white" {...(theme ? { 'data-theme': theme } : {})}>
       <div className="bg-[#062d70] text-white">
         <div className="container flex min-h-8 items-center justify-between gap-3 text-[11px] font-semibold sm:text-xs">
-          <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`} target="_blank" rel="noreferrer" className="min-w-0 truncate hover:underline" title={address}>
+          <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`} target="_blank" rel="noreferrer" className="min-w-0 max-w-[75vw] truncate hover:underline sm:max-w-none" title={address} aria-label={`Open Kaanchwala address in Google Maps: ${address}`}>
             📍 <span className="sm:hidden">New Hafeezpet, Hyderabad</span><span className="hidden sm:inline">{address}</span>
           </a>
           <span className="hidden shrink-0 sm:block">◷ Mon–Sun: 9:00 AM – 7:00 PM</span>
@@ -41,7 +41,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
           </Link>
           <div className="flex min-w-0 items-center gap-2 sm:gap-3">
             <HeaderNav data={data} locale={locale} />
-            <LocaleSwitcher currentLocale={locale} />
+            <div className="hidden md:block"><LocaleSwitcher currentLocale={locale} /></div>
           </div>
         </div>
       </div>
