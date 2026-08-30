@@ -154,7 +154,7 @@ export async function up({ payload }: MigrateUpArgs): Promise<void> {
         description: service.metaDescription,
       },
       publishedAt: new Date().toISOString(),
-      _status: 'published',
+      _status: 'published' as const,
     }
 
     if (existing.docs[0]) {
