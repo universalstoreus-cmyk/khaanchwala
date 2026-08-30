@@ -99,6 +99,38 @@ export const Services: CollectionConfig<'services'> = {
               name: 'coverImage',
               type: 'upload',
               relationTo: 'media',
+              admin: {
+                description: 'Primary hero/cover image for this service',
+              },
+            },
+            {
+              name: 'cutawayImage',
+              type: 'upload',
+              relationTo: 'media',
+              admin: {
+                description: 'Service-specific cutaway/sectional visual. Do not reuse another service asset.',
+              },
+            },
+            {
+              name: 'gallery',
+              type: 'array',
+              admin: {
+                description: 'Service-specific gallery images',
+                initCollapsed: true,
+              },
+              fields: [
+                {
+                  name: 'image',
+                  type: 'upload',
+                  relationTo: 'media',
+                  required: true,
+                },
+                {
+                  name: 'caption',
+                  type: 'text',
+                  localized: true,
+                },
+              ],
             },
             {
               name: 'features',
@@ -112,10 +144,55 @@ export const Services: CollectionConfig<'services'> = {
                   name: 'title',
                   type: 'text',
                   required: true,
+                  localized: true,
                 },
                 {
                   name: 'description',
                   type: 'textarea',
+                  localized: true,
+                },
+              ],
+            },
+            {
+              name: 'applications',
+              type: 'array',
+              admin: {
+                description: 'Where this specific service is used',
+                initCollapsed: true,
+              },
+              fields: [
+                {
+                  name: 'title',
+                  type: 'text',
+                  required: true,
+                  localized: true,
+                },
+                {
+                  name: 'description',
+                  type: 'textarea',
+                  localized: true,
+                },
+              ],
+            },
+            {
+              name: 'faqs',
+              type: 'array',
+              admin: {
+                description: 'FAQs specific to this service',
+                initCollapsed: true,
+              },
+              fields: [
+                {
+                  name: 'question',
+                  type: 'text',
+                  required: true,
+                  localized: true,
+                },
+                {
+                  name: 'answer',
+                  type: 'textarea',
+                  required: true,
+                  localized: true,
                 },
               ],
             },
@@ -136,6 +213,24 @@ export const Services: CollectionConfig<'services'> = {
                 },
               }),
               label: 'Full content',
+            },
+          ],
+        },
+        {
+          label: 'CTA',
+          fields: [
+            {
+              name: 'ctaLabel',
+              type: 'text',
+              localized: true,
+              defaultValue: 'Request a Quote',
+            },
+            {
+              name: 'ctaUrl',
+              type: 'text',
+              admin: {
+                description: 'Optional custom CTA URL. Leave empty to use the site contact/quote route.',
+              },
             },
           ],
         },
