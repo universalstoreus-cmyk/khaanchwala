@@ -3,40 +3,48 @@ import type { ReactNode } from 'react'
 import './globals.css'
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://kaanchwala.com'
+const siteName = 'Kaanch Wala'
+const description = 'Premium glass, mirror, windows, partitions and interior solutions in Hyderabad.'
+const logo = '/kaanchwala-logo.webp'
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: 'Kaanch Wala | Glass & Mirror Solutions',
-    template: '%s | Kaanch Wala',
+    default: `${siteName} | Glass & Mirror Solutions`,
+    template: `%s | ${siteName}`,
   },
-  description: 'Premium glass, mirror, windows, partitions and interior solutions in Hyderabad.',
+  description,
+  applicationName: siteName,
+  creator: siteName,
+  publisher: siteName,
+  category: 'business',
   alternates: { canonical: '/' },
   robots: { index: true, follow: true },
   openGraph: {
     type: 'website',
-    siteName: 'Kaanch Wala',
-    title: 'Kaanch Wala | Glass & Mirror Solutions',
-    description: 'Premium glass, mirror, windows, partitions and interior solutions in Hyderabad.',
+    siteName,
+    title: `${siteName} | Glass & Mirror Solutions`,
+    description,
     url: siteUrl,
-    images: [{ url: '/kaanchwala-logo.webp', alt: 'Kaanch Wala Glass & Mirror Solutions' }],
+    locale: 'en_IN',
+    images: [{ url: logo, width: 1200, height: 630, alt: `${siteName} Glass & Mirror Solutions` }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Kaanch Wala | Glass & Mirror Solutions',
-    description: 'Premium glass, mirror, windows, partitions and interior solutions in Hyderabad.',
-    images: ['/kaanchwala-logo.webp'],
+    title: `${siteName} | Glass & Mirror Solutions`,
+    description,
+    images: [logo],
   },
   icons: {
-    icon: '/kaanchwala-logo.webp',
-    shortcut: '/kaanchwala-logo.webp',
-    apple: '/kaanchwala-logo.webp',
+    icon: logo,
+    shortcut: logo,
+    apple: logo,
   },
 }
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en-IN">
       <body>{children}</body>
     </html>
   )
