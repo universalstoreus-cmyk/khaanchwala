@@ -6,7 +6,7 @@ import SiteHeader from './components/SiteHeader'
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://kaanchwala.com'
 const siteName = 'Kaanch Wala'
 const description = 'Premium glass, mirror, windows, partitions and interior solutions in Hyderabad.'
-const logo = '/kaanchwala-logo.svg'
+const logo = '/kaanchwala-logo.webp'
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
