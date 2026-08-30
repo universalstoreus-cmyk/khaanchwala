@@ -8,9 +8,6 @@ const nextConfig: NextConfig = {
       { protocol: 'https', hostname: 'images.unsplash.com' },
     ],
   },
-  eslint: {
-    ignoreDuringBuilds: false,
-  },
   typescript: {
     ignoreBuildErrors: false,
   },
